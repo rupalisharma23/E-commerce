@@ -1,0 +1,23 @@
+.navbar{
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background:  linear-gradient(to right, #B3E5FC 0%, #E3F2FD 20%, #F8BBD0 90%);
+}
+
+.nav-item{
+    font-weight: 400 !important;
+    font-size: 15px;
+    font-family: 'Lato', sans-serif;
+}
+
+
+.active{
+    border-bottom: 1px solid black;
+}
+
+.mainDiv{
+    min-height: 100vh;
+    position: relative;
+}

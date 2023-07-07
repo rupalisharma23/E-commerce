@@ -1,0 +1,35 @@
+.footerBottom{
+    font-size: 8px;
+    font-family: 'Lato', sans-serif;
+    padding: 10px 0;
+}
+
+.fontSize{
+    font-size: 12px;
+    font-family: 'Lato', sans-serif;
+}
+
+.container1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.textDeco{
+    text-decoration: none;
+}
+
+.textDeco:hover{
+    border-bottom: 1.5px solid white;
+}
+
+.bottomFooter{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer{
+    height: 6rem;
+}
+
