@@ -7,7 +7,7 @@ const {hashPassword, comparePassword} = helper
 const resisterController = async (req, res) => {
   try {
 
-    const{name,email,password,phone,address} = req.body;
+    const{name,email,password,phone,address, role} = req.body;
     if(!name){
         return res.status(400).send({error:'name is required'})
     }
@@ -30,7 +30,7 @@ const resisterController = async (req, res) => {
     }
     else{
         const hashedPassword = await hashPassword(password);
-        const user =  await userModel.create({ name, email,phone, address, password:hashedPassword })
+        const user =  await userModel.create({ name, email,phone, address, role, password:hashedPassword })
         res.status(200).json({message:'user creacted',user})
     }
 

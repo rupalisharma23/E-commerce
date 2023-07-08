@@ -1,0 +1,55 @@
+.dashboard_heading{
+    font-weight: 200 !important;
+    font-size: 22px;
+    font-family: 'Lato', sans-serif;
+    margin-top: 1rem;
+    text-transform: uppercase;
+}
+
+.alignCenter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dashboard_heading {
+  background-color: transparent;
+  display: flex;
+    justify-content: center;
+}
+
+.table-striped {
+  border-collapse: separate;
+  border-spacing: 0 0.5em;
+}
+
+.table-sm th,
+.table-sm td {
+  border-color: #212529;
+}
+
+.inputEdit{
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #03A9F4;
+    font-size: 12px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 200 !important;
+}
+
+.AddCategory{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container1_createProduct{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap:1.5rem
+}

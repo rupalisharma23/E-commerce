@@ -4,9 +4,14 @@ import Cart from './Components/Cart';
 import Categories from './Components/Categories';
 import Login from './Components/Login';
 import Register from './Components/Register';
-import About from './pages/About';
-import Home from './pages/Home';
-import PageNotFound from './pages/PageNotFound';
+import About from "./Components/About";
+import Home from "./Components/Home";
+import PageNotFound from "./Components/PageNotFound";
+import Dashboard from './Components/Dashboard';
+import Product from './Components/Product';
+import Order from './Components/Order';
+import Profile from './Components/Profile';
+import CreateProduct from './Components/CreateProduct';
 
 function App() {
   return (
@@ -16,8 +21,13 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Categories" element={<Categories />} />
+        <Route path="/Create-Product" element={<CreateProduct />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/Product" element={<Product />} />
+        <Route path="/Order" element={<Order />} />
+        <Route path="/Profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

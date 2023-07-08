@@ -14,7 +14,7 @@ export default function Header() {
                     <span className="navbar-toggler-icon" />
                 </button>
                 <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                    <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {!user || user?.role == 0 ? <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <NavLink to='/' className="nav-link" aria-current="page" href="#">Home</NavLink>
                         </li>
@@ -33,7 +33,26 @@ export default function Header() {
                             <NavLink to='/Login' className="nav-link" href="#" onClick={() => { navigate('/Login'); localStorage.clear(); window.location.reload(); }}>Logout</NavLink>
                         </li>}
 
-                    </ul>
+                    </ul> :
+                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li className="nav-item">
+                                <NavLink to='/Dashboard' className="nav-link" aria-current="page" href="#">Dashboard</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to='/Product' className="nav-link" href="#">Products</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to='/Order' className="nav-link" href="#">Orders</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to='/Register' className="nav-link" href="#">Create</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to='/Login' className="nav-link" href="#" onClick={() => { navigate('/Login'); localStorage.clear(); window.location.reload(); }}>Logout</NavLink>
+                            </li>
+
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>

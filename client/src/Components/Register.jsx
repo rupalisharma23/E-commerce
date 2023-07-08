@@ -13,12 +13,13 @@ export default function Register() {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const navigate = useNavigate()
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleSubmit = (e) =>{
     e.preventDefault();
-    return axios.post(`http://localhost:8080/api/auth/register`,{name,email,address,phone,password}).then((res)=>{
-      toast.success('registration successfull');
-      navigate('/Login')
+    return axios.post(`http://localhost:8080/api/auth/register`,{name,email,address,phone,password,role:user?1:0}).then((res)=>{
+      user ? toast.success('Admin added'): toast.success('registration successfull');
+      !user && navigate('/Login')
     }).catch((error)=>{
       toast.error(error.response.data.message)
     })
@@ -31,7 +32,7 @@ export default function Register() {
             <div className="col-md-6">
               <div className="card shadow-lg">
                 <div className="card-body">
-                  <h3 className="card-title text-center title">Registration Form</h3>
+                  <h3 className="card-title text-center title">{ user? "Add admin" : "Registration Form"}</h3>
                   <form onSubmit={(e) => { handleSubmit(e) } }>
                     <div className="form-group">
                       <label htmlFor="name">Name</label>
@@ -53,7 +54,7 @@ export default function Register() {
                       <label htmlFor="address">Address</label>
                       <input type="text" value={address} onChange={(e) => { setAddress(e.target.value) }} className="form-control mt-1" id="address" required placeholder="Enter your address.." />
                     </div>
-                    <div className='text-center'><button type="submit" className="btn text-light bg-dark">Register</button></div> 
+                    <div className='text-center'><button type="submit" className="btn text-light bg-dark">{ user? "Create": "Register"}</button></div> 
                   </form>
                 </div>
               </div>

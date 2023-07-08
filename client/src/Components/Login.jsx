@@ -16,7 +16,7 @@ export default function Login() {
       toast.success('registration successfull');
       localStorage.setItem('user', JSON.stringify(res.data.user) )
       localStorage.setItem('token', res.data.tocken)
-      navigate('/')
+      navigate(res.data.user.role == 0 ? '/' :'/Dashboard')
     }).catch((error) => {
       toast.error(error.response.data.message)
     })
