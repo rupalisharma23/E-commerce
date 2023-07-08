@@ -8,8 +8,9 @@ export default function Dashboard() {
     <Layout>
       <div className="container-fluid">
         <div className="dashboard_heading"> Dashboard</div>
-        <NavLink to='/Categories' className="nav-link" aria-current="page" href="#">categories</NavLink>
-        <NavLink to='/Create-Product' className="nav-link" aria-current="page" href="#">Product</NavLink>
+        <NavLink to='/Categories' className="nav-link" aria-current="page" href="#">Manage categories</NavLink>
+        <NavLink to='/Create-Product' className="nav-link" aria-current="page" href="#">Add product</NavLink>
+        <NavLink to='/Register' className="nav-link" aria-current="page" href="#">Add Admin</NavLink>
       </div>
     </Layout>
   )

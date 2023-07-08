@@ -21,9 +21,9 @@ export default function Header() {
                         <li className="nav-item">
                             <NavLink to='/Cart' className="nav-link" href="#">Cart</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink to='/Categories' className="nav-link" href="#">Categories</NavLink>
-                        </li>
+                        {/* <li className="nav-item">
+                            <NavLink to='/CategoriesUser' className="nav-link" href="#">Categories</NavLink>
+                        </li> */}
                         {!user ? <> <li className="nav-item">
                             <NavLink to='/Login' className="nav-link" href="#">Login</NavLink>
                         </li>
