@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import axios from 'axios';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateProduct() {
     const [categoriesArray, setCategoriesArray] = useState([]);
@@ -15,6 +16,7 @@ export default function CreateProduct() {
     const [categories, setCategories] = useState('');
     const [shipping, setShipping] = useState('');
     const token = localStorage.getItem('token');
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -53,7 +55,8 @@ export default function CreateProduct() {
             setQuantity('');
             setPhoto('');
             setShipping('');
-            setCategories('')
+            setCategories('');
+            navigate('/Product')
         }).catch((error)=>{
             toast.error(error.response.data.error)
         })

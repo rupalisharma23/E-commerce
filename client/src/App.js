@@ -12,6 +12,7 @@ import Product from './Components/Product';
 import Order from './Components/Order';
 import Profile from './Components/Profile';
 import CreateProduct from './Components/CreateProduct';
+import UpdateProduct from './Components/UpdateProduct';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/Register" element={<Register />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Product" element={<Product />} />
+        <Route path="/update-product/:id" element={<UpdateProduct />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
