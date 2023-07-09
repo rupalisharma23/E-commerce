@@ -25,7 +25,7 @@ export default function Categories() {
     setEditDialogOpen(false);
   };
   const user = JSON.parse(localStorage.getItem('user'));
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
 
   useEffect(()=>{
     getCategories();

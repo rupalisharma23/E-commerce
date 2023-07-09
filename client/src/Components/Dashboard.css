@@ -53,3 +53,34 @@
     flex-direction: column;
     gap:1.5rem
 }
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-title{
+  font-size: 18px;
+   font-weight: 600 !important;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 0;
+
+}
+.card-text{
+  font-size: 15px;
+   font-weight: 600 !important;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 0;
+
+}
+.card-des{
+  font-size: 12px;
+   font-weight: 400 !important;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 0;
+    display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
