@@ -9,7 +9,6 @@ import { price } from './Prices';
 export default function Product() {
   const [allProduct, setAllProducts] = useState([]);
   const [categoriesFilter, setCategoriesFilter] = useState([]);
-  const [radioFilter, setRadioFilter] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState();
   const token = localStorage.getItem('token');
@@ -66,7 +65,7 @@ export default function Product() {
 
   // Function to handle the radio button selection
   const handleRadioChange = (priceRange) => {
-    setSelectedPrice(priceRange); // Set the selected price range
+    setSelectedPrice(priceRange); 
   };
 
   return (
@@ -112,7 +111,7 @@ export default function Product() {
                     <Link key={product._id} to={`/update-product/${product._id}`} style={{ textDecoration: 'none' }} >
                     <div class="col">
                       <div class="card">
-                        <img src={`http://localhost:8080/api/product/get-photo/${product._id}`} class="card-img-top" alt="Product 1" />
+                          <img src={`http://localhost:8080/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top" alt="Product 1" />
                         <div class="card-body">
                           <div class="card-title">{product.name}</div>
                           <p class="card-text">Price: {product.price}</p>

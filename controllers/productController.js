@@ -1,6 +1,5 @@
 const product = require("../models/ProductModel");
 const fs = require("fs");
-const { findByIdAndUpdate } = require("../models/ProductModel");
 
 const createProductController = async (req, res) => {
   try {
@@ -153,11 +152,7 @@ const updateProductController = async (req, res) => {
         return res.status(400).send({ error: "quantity is required" });
       case !categories:
         return res.status(400).send({ error: "categories is required" });
-      case !photo:
-        return res.status(400).send({
-          error: "photo is required and size should be less than 1mb",
-        });
-      case photo.size > 1 * 1024 * 1024:
+      case photo && photo.size > 1 * 1024 * 1024:
         return res.status(400).send({
           error: "photo size should be less than 1MB",
         });
