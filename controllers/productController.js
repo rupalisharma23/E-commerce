@@ -164,9 +164,9 @@ const updateProductController = async (req, res) => {
         return res.status(400).send({ error: "quantity is required" });
       case !categories:
         return res.status(400).send({ error: "categories is required" });
-      case photo && photo.size > 1 * 1024 * 1024:
+      case photo && photo.size > 100 * 1024:
         return res.status(400).send({
-          error: "photo size should be less than 1MB",
+          error: "photo size should be less than 1kb",
         });
     }
 
