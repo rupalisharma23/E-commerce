@@ -19,7 +19,7 @@ router.post('/create-product',requireSignIn, AminAccress,formidableMiddleware(),
 
 // to get product
 router.get(
-  "/get-product",
+  "/get-product/:page",
   getProductController
 );
 
@@ -36,6 +36,6 @@ router.put('/update-product/:_id',requireSignIn, AminAccress,formidableMiddlewar
 router.delete("/delete-product/:_id",requireSignIn, AminAccress, deleteProductController);
 
 // to filter product
-router.post("/get-product-filter", filterProductController);
+router.post("/get-product-filter/:page", filterProductController);
 
 module.exports = router

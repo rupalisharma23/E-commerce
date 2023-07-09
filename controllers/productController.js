@@ -47,13 +47,17 @@ const createProductController = async (req, res) => {
 // to get products
 const getProductController = async (req, res) => {
   try {
+    const page = req.params.page;
+    const productPerPage = 2;
     const allProduct = await product
       .find({})
+      .skip((page - 1) * productPerPage)
       .select("-photo")
       .populate("categories")
-      .limit(12)
+      .limit(productPerPage)
       .sort({ createdAt: -1 });
-    res.status(200).send({ success: true, allProduct, length: allProduct.length });
+    const allAvailableProductCount = await product.find({});
+    res.status(200).send({ success: true, allProduct, length: allProduct.length, totalProduct:allAvailableProductCount.length, productPerPage });
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: error });
@@ -64,6 +68,8 @@ const getProductController = async (req, res) => {
 const filterProductController = async (req, res) => {
   try {
     const { checked, radio } = req.body;
+    const page = req.params.page;
+    const productPerPage = 2;
 
     let filter = {}; // Initialize an empty filter object
 
@@ -77,15 +83,21 @@ const filterProductController = async (req, res) => {
 
     console.log(filter);
 
-    const allProduct = await product.find(filter)
+    const allProduct = await product
+      .find(filter)
+      .skip((page - 1) * productPerPage)
       .select("-photo")
       .populate("categories")
-      .limit(12)
+      .limit(productPerPage)
       .sort({ createdAt: -1 });
-
-    res
-      .status(200)
-      .send({ success: true, allProduct, length: allProduct.length });
+    const allAvailableProductCount = await product.find(filter);
+    res.status(200).send({
+      success: true,
+      allProduct,
+      length: allProduct.length,
+      totalProduct: allAvailableProductCount.length,
+      productPerPage
+    });
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: error });
