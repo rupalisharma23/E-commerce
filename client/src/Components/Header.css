@@ -21,3 +21,41 @@
     min-height: 100vh;
     position: relative;
 }
+
+.search-bar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.search-bar form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-bar input[type='search'] {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.search-bar .btn {
+    margin-left: 10px;
+}
+
+.searchInHeader{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.icon{
+    position: absolute;
+    top: 14px;
+    left: 22px;
+}

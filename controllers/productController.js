@@ -48,7 +48,7 @@ const createProductController = async (req, res) => {
 const getProductController = async (req, res) => {
   try {
     const page = req.params.page;
-    const productPerPage = 2;
+    const productPerPage = 10;
     const allProduct = await product
       .find({})
       .skip((page - 1) * productPerPage)
@@ -69,7 +69,7 @@ const filterProductController = async (req, res) => {
   try {
     const { checked, radio } = req.body;
     const page = req.params.page;
-    const productPerPage = 2;
+    const productPerPage = 10;
 
     let filter = {}; // Initialize an empty filter object
 
@@ -127,6 +127,22 @@ const getSingleProductController = async(req,res) =>{
     res.status(400).send({ error: error });
   }
 }
+
+const getRelatedProductController = async (req, res) => {
+  try {
+    const pid = req.params.pid;
+    const cid = req.params.cid;
+    const allProduct = await product
+      .find({ categories: cid, _id: { $ne: pid } })
+      .select("-photo")
+      .populate("categories")
+      .limit(3);
+    res.status(200).send({ success: true, allProduct });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ error: error });
+  }
+};
 
 // to get photo
 const productPhotoController = async(req,res) =>{
@@ -198,6 +214,27 @@ const deleteProductController = async (req, res) => {
   }
 };
 
+// get searched data 
+const searchProductController = async (req, res) => {
+  try {
+    const keyword = req.params.keyword;
+    const allProduct = await product
+      .find({
+        $or: [
+          { name: { $regex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      })
+      .select("-photo")
+      .populate("categories")
+      .sort({ createdAt: -1 });
+    res.status(200).send({ success: true, allProduct, length: allProduct.length});
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ error: error });
+  }
+};
+
 module.exports = {
   createProductController,
   getProductController,
@@ -206,4 +243,6 @@ module.exports = {
   deleteProductController,
   updateProductController,
   filterProductController,
+  searchProductController,
+  getRelatedProductController,
 };

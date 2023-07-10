@@ -13,6 +13,8 @@ import Order from './Components/Order';
 import Profile from './Components/Profile';
 import CreateProduct from './Components/CreateProduct';
 import UpdateProduct from './Components/UpdateProduct';
+import Search from './Components/Search'
+import ViewProduct from './Components/ViewProduct';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         <Route path="/update-product/:id" element={<UpdateProduct />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/Search" element={<Search />} />
+        <Route path="/view-product/:cid/:pid" element={<ViewProduct />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

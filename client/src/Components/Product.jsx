@@ -15,6 +15,7 @@ export default function Product() {
   const [productPerPage, setProductPerPage] = useState();
   const [page, setPage] = useState(1);
   const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
 
 
   useEffect(() => {
@@ -137,7 +138,7 @@ export default function Product() {
               <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
                 {allProduct.map((product)=>{
                   return(
-                    <Link key={product._id} to={`/update-product/${product._id}`} style={{ textDecoration: 'none' }} >
+                    <Link key={product._id} to={user?.role == 1 ? `/update-product/${product._id}` : `/view-product/${product.categories._id}/${product._id}`} style={{ textDecoration: 'none' }} >
                     <div class="col">
                       <div class="card">
                           <img src={`http://localhost:8080/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top" style={{height:'300px', objectFit:'contain'}} alt="Product 1" />

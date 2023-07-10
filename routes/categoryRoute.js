@@ -20,7 +20,7 @@ router.post(
 );
 
 // to get all categories
-router.get("/categories", requireSignIn, AminAccress, readCategoryController);
+router.get("/categories", readCategoryController);
 
 // to update category
 router.put("/categories/:id", requireSignIn, AminAccress, updateController);
