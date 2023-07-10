@@ -14,7 +14,7 @@ export default function Cart() {
   const [cart, setCart] = useCart();
 
   useEffect(() => {
-    getCartItems();
+   user && getCartItems();
   }, []);
 
   const getCartItems = () => {

@@ -108,7 +108,7 @@ export default function ViewProduct() {
             <h4 className="dashboard_heading_product" style={{ fontSize: '17px' }}>Price: Rs{price}</h4>
             <p className="dashboard_heading_product" style={{ fontSize: '12px' }}>Category:{categories.name}</p>
             <p className="dashboard_heading_product" style={{ fontSize: '12px' }}>Description:{description}</p>
-            <button className="btn btn-dark text-light" onClick={() => { addToCart() }} >Add to Cart</button>
+            <button className="btn btn-dark text-light" onClick={() => { user? addToCart() : toast.error('please login') }} >Add to Cart</button>
           </div>
         </div>
         <div class="container" style={{marginTop:'4rem', marginBottom:'4rem'}}>

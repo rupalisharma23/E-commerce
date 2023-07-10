@@ -14,7 +14,7 @@ export default function Header() {
     const [cart, setCart] = useCart();
 
     useEffect(() => {
-        getCartCount();
+     ( user && user.role ==0) &&  getCartCount();
     }, []);
 
     console.log(cart)
