@@ -6,6 +6,14 @@
     text-transform: uppercase;
 }
 
+.dashboard_heading_product{
+    font-weight: 600 !important;
+    font-size: 22px;
+    font-family: 'Lato', sans-serif;
+    margin-top: 1rem;
+    text-transform: capitalize;
+}
+
 .alignCenter{
     display: flex;
     align-items: center;
@@ -83,4 +91,31 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.box-of-search{
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+.leftSideContainer{
+  width: 60%;
+}
+
+.rightSideContainer{
+  width: 40%;
+}
+
+.batch{
+      position: absolute;
+    top: -4px;
+    right: -2px;
+    background: red;
+    padding: 1px 6px;
+    border-radius: 50%;
+    font-size: 13px;
+        font-family: 'Lato', sans-serif;
 }

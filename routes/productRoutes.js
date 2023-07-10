@@ -9,6 +9,8 @@ const {
   deleteProductController,
   updateProductController,
   filterProductController,
+  searchProductController,
+  getRelatedProductController,
 } = product;
 const middleware = require("../middleware/authMiddleware");
 const { requireSignIn, AminAccress } = middleware;
@@ -26,6 +28,9 @@ router.get(
 // to get single product
 router.get("/get-single-product/:_id", getSingleProductController);
 
+// to get related product
+router.get("/get-related-product/:cid/:pid", getRelatedProductController);
+
 // to get photo
 router.get('/get-photo/:pid', productPhotoController)
 
@@ -37,5 +42,8 @@ router.delete("/delete-product/:_id",requireSignIn, AminAccress, deleteProductCo
 
 // to filter product
 router.post("/get-product-filter/:page", filterProductController);
+
+// to filter product
+router.get("/search/:keyword", searchProductController);
 
 module.exports = router

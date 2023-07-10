@@ -118,7 +118,7 @@ export default function Categories() {
                   <tr key={category.id}>
                     <td style={{width:'80%'}}>{category.name}</td>
                     <td style={{ width: '20%' }} className="text-left">
-                      <i className="fas fa-trash" onClick={() => { deleteCategory(category._id) }} style={{marginRight:'10px', cursor:'pointer'}}></i>
+                      <i className="fas fa-trash" onClick={() => { deleteCategory(category._id) }} style={{ marginRight: '10px', cursor: 'pointer', color: 'red' }}></i>
                       <i className="fas fa-edit" onClick={() => { handleEditDialogOpen(category) }} style={{ cursor: 'pointer' }} ></i>
                     </td>
                   </tr>

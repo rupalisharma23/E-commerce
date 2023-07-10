@@ -4,6 +4,7 @@ const mongoConnecction = require("./config/db")
 const authRoute = require("./routes/authRoute")
 const categoryRoute = require("./routes/categoryRoute")
 const productRoute = require("./routes/productRoutes")
+const cartRoute = require("./routes/CartRoutes")
 const cors = require("cors");
 // const formidableMiddleware = require("express-formidable");
 
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoute)
 app.use("/api/category", categoryRoute);
 app.use("/api/product", productRoute);
+app.use("/api/cart", cartRoute);
 
 const PORT = process.env.PORT || 8080;
 

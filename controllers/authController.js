@@ -79,7 +79,8 @@ const loginController = async (req, res) => {
         email: userAlredyExixt.email,
         address: userAlredyExixt.address,
         role: userAlredyExixt.role,
-        address: userAlredyExixt.address
+        address: userAlredyExixt.address,
+        _id: userAlredyExixt._id,
       },
       message: "logined successfully",
       tocken,
