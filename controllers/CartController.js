@@ -4,34 +4,32 @@ const cartItems = require('../models/CartModel');
 const createCartController = async(req,res) =>{
     try{
 
-        const { cart, userInfo, quantity } = req.body;
+        const { cart, userInfo, quantity, size } = req.body;
         if (!userInfo) {
           res.status(400).send({ error: "please login" });
         }
 
         const checkIfCartItemAlreadyExist = await cartItems.findOne({ cart });
-        if(checkIfCartItemAlreadyExist){
-            const updatedItem = await cartItems.findOneAndUpdate(
-              { cart },
-              {
-                ...req.body,
-                quantity:  checkIfCartItemAlreadyExist.quantity + (parseInt(quantity)),
-              },
-              { new: true }
-            );
-            res
-              .status(200)
-              .send({ message: "item added to cart", updatedItem });
-        }
-        else{
+        if (checkIfCartItemAlreadyExist && checkIfCartItemAlreadyExist.size==size) {
+          const updatedItem = await cartItems.findOneAndUpdate(
+            { cart },
+            {
+              ...req.body,
+              quantity:
+                checkIfCartItemAlreadyExist.quantity + parseInt(quantity),
+            },
+            { new: true }
+          );
+          res.status(200).send({ message: "item added to cart", updatedItem });
+        } else {
+          const allCartItems = await cartItems.create({
+            cart,
+            userInfo: userInfo,
+            quantity,
+            size,
+          });
 
-        const allCartItems = await cartItems.create({
-          cart,
-          userInfo: userInfo,
-          quantity,
-        });
-
-        res.status(200).send({ message: "item added to cart", allCartItems });
+          res.status(200).send({ message: "item added to cart", allCartItems });
         }
     }
     catch(error){
@@ -39,6 +37,27 @@ const createCartController = async(req,res) =>{
         res.status(400).send({error:error})
     }
 }
+
+const updateCartController = async (req, res) => {
+  try {
+    const { cart, userInfo, quantity, size } = req.body;
+    const _id = req.params._id
+    if (!userInfo) {
+      res.status(400).send({ error: "please login" });
+    }
+      const updatedItem = await cartItems.findOneAndUpdate(
+        { _id },
+        {
+          ...req.body
+        },
+        { new: true }
+      );
+      res.status(200).send({ message: "item updated", updatedItem });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ error: error });
+  }
+};
 
 // to get cart items
 const getCartController = async(req,res) =>{
@@ -64,8 +83,12 @@ const getCartController = async(req,res) =>{
 const getCartCountController = async (req, res) => {
   try {
     const { id } = req.params;
+    let sum = 0;
     const allCartItems = await cartItems.find({ userInfo: id })
-    res.status(200).send({ length:allCartItems.length });
+     allCartItems.forEach((q)=>{
+      sum = sum + q.quantity
+    })
+    res.status(200).send({ length:sum });
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: error });
@@ -92,4 +115,5 @@ module.exports = {
   getCartController,
   deleteCartController,
   getCartCountController,
+  updateCartController,
 };

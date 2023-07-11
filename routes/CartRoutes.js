@@ -6,10 +6,14 @@ const {
   getCartController,
   deleteCartController,
   getCartCountController,
+  updateCartController,
 } = controller;
 
 // to save cart Items
 router.post('/create-cart', createCartController )
+
+// to update cart Items
+router.put("/update-cart/:_id", updateCartController);
 
 // to get cart items
 router.get("/get-cart/:id", getCartController);

@@ -17,8 +17,6 @@ export default function Header() {
      ( user && user.role ==0) &&  getCartCount();
     }, []);
 
-    console.log(cart)
-
     const getCartCount = () => {
         return axios(`http://localhost:8080/api/cart/get-cart-count/${user._id}`, {
             headers: {

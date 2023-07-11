@@ -17,6 +17,9 @@ const CartSchema = new Schema({
     type: mongoose.ObjectId,
     ref: "users",
     required: true,
+  },
+  size:{
+    type:String
   }
 },{ timestamps: true });
 
