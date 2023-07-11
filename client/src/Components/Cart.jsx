@@ -4,13 +4,15 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { useCart } from './CartContextPage';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function Cart() {
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
   const [allcartItems, setAllCartItems] = useState([]);
   const [intialQunatity, setIntialQunatity] = useState(0);
-  const [intialQunatities, setIntialQunatities] = useState();
+  const [intialQunatities, setIntialQunatities] = useState({});
   const [cart, setCart] = useCart();
 
   useEffect(() => {
@@ -24,27 +26,39 @@ export default function Cart() {
       }
     }).then((res) => {
       setAllCartItems(res.data.allCartItems);
-      setCart(res.data.allCartItems.length)
       const initialQuantities = {};
       res.data.allCartItems.forEach((item) => {
         initialQuantities[item._id] = item.quantity;
       });
       setIntialQunatities(initialQuantities);
-    
+      
     });
   };
 
-  const addToCart = (id,quantity) => {
-    return axios.post(`http://localhost:8080/api/cart/create-cart`, {
+  const getCartCount = () => {
+    return axios(`http://localhost:8080/api/cart/get-cart-count/${user._id}`, {
+      headers: {
+        authorization: token
+      }
+    }).then((res) => {
+      setCart(res.data.length)
+    });
+  };
+
+  const addToCart = (id,quantity,cartId,size) => {
+    return axios.put(`http://localhost:8080/api/cart/update-cart/${cartId}`, {
       cart: id,
-      quantity: quantity - intialQunatity ,
-      userInfo: user._id
+      quantity: quantity ,
+      userInfo: user._id,
+      size
     }, {
       headers: {
         Authorization: token
       }
     }).then((res) => {
       toast.success('cart item updated')
+      getCartCount()
+
     }).catch((error)=>{
       toast.error('error in updating')
     })
@@ -57,7 +71,7 @@ export default function Cart() {
       }
     }).then((res) => {
       getCartItems();
-      setCart(cart-1)
+      getCartCount();
       toast.success('cart item delted');
     }).catch((error)=>{
       toast.error('error in deleting')
@@ -71,12 +85,24 @@ export default function Cart() {
     setAllCartItems(temp)
   }
 
-  console.log(intialQunatity)
-
   const decrement = (quantity, index, id) =>{
     let temp = [...allcartItems];
     setIntialQunatity(intialQunatities[id])
     temp[index] = {...temp[index], quantity:temp[index].quantity-1}
+    setAllCartItems(temp)
+  }
+
+  const totalPrice = () =>{
+    let totalPrice = 0;
+    allcartItems.map((cart)=>{
+      totalPrice = totalPrice + (parseFloat(cart.cart.price) * cart.quantity)
+    })
+    return totalPrice
+  }
+
+  const changeCartSize = (index, size) =>{
+    let temp = [...allcartItems];
+    temp[index] = { ...temp[index], size: size }
     setAllCartItems(temp)
   }
 
@@ -117,8 +143,26 @@ export default function Cart() {
                         <div className="card-body">
                           <h5 className="card-title mb-1">{cart.cart.name}</h5>
                           {/* <p className="card-text card-des">{cart.cart.description}</p> */}
-                          <p className="card-text">Price: Rs{cart.cart.price}</p>
-                          <p className="card-text">Category: {cart.cart.categories.name}</p>
+                        <p className="card-text">Price: Rs{cart.cart.price} <p style={{marginBottom:'0rem'}}>Total price: Rs{parseFloat(cart.cart.price) * cart.quantity}</p> </p>
+                        <p className="card-text">Category: {cart.cart.categories.name}</p>
+                        <p className="card-text" style={{ marginBottom: '1rem' }}>Size: 
+                        <Select
+                        onChange={(e)=>{changeCartSize(index, e.target.value)}}
+                        value={ cart.size }
+                            disableUnderline
+                            displayEmpty
+                            sx={{ boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }}
+                            variant="standard"
+                            inputProps={{ 'aria-label': 'Without label' }}
+                            style={{ outline: 'none', boxShadow: 'none', marginLeft:'10px', paddingBottom:'0', borderBottom:'1px solid black' }} 
+                        >
+                            {cart.cart.size && Object.values(cart.cart.size).map((s)=>{
+                              return(
+                                <MenuItem value={s} key={s}>{s}</MenuItem>
+                              )
+                            })}
+                        </Select>
+                        </p>
                           <div className="input-group">
                             <div className="input-group-prepend">
                             <button className={`btn btn-outline-secondary bg-dark text-light ${cart.quantity === 1 ? 'disabled' : ''}`} style={{ padding: '0 1rem', marginRight: '1rem' }} type="button" onClick={() => { decrement(cart.quantity, index, cart._id) }} >
@@ -134,7 +178,7 @@ export default function Cart() {
                           </div>
                         </div>
                         <div className="card-body" style={{textAlign:'end'}}>
-                        <button className="btn btn-dark text-light" style={{ padding: '0 1rem' }} onClick={() => { addToCart(cart.cart._id, cart.quantity) }}>
+                        <button className="btn btn-dark text-light" style={{ padding: '0 1rem' }} onClick={() => { addToCart(cart.cart._id, cart.quantity, cart._id, cart.size) }}>
                             Save
                           </button>
                         <i className="fas fa-trash" style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => { deleteCart(cart._id) }} ></i>
@@ -146,6 +190,7 @@ export default function Cart() {
               </div>
           );
         })}
+        {totalPrice()}
       </div>
     </Layout>
   );

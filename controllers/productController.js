@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const createProductController = async (req, res) => {
   try {
-    const { name, description, price, quantity, categories, shipping } =
+    const { name, description, price, quantity, categories, shipping,size } =
       req.fields;
     const { photo } = req.files;
 
@@ -28,7 +28,7 @@ const createProductController = async (req, res) => {
         });
     }
 
-    const productModel = await new product({ ...req.fields });
+    const productModel = await new product({ ...req.fields, size:JSON.parse(size) });
     if (photo) {
       productModel.photo.data = fs.readFileSync(photo.path);
       productModel.photo.contentType = photo.type;
@@ -164,7 +164,7 @@ const productPhotoController = async(req,res) =>{
 // update
 const updateProductController = async (req, res) => {
   try {
-    const { name, description, price, quantity, categories, shipping } =
+    const { name, description, price, quantity, categories, shipping, size } =
       req.fields;
     const { photo } = req.files;
     const  _id  = req.params._id;
@@ -188,7 +188,7 @@ const updateProductController = async (req, res) => {
 
     const productModel = await product.findByIdAndUpdate(
       { _id },
-      { ...req.fields },
+      { ...req.fields, size: JSON.parse(size) },
       { new: true }
     );
     if (photo) {

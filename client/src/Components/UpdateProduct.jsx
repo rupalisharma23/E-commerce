@@ -15,6 +15,7 @@ export default function UpdateProduct() {
   const [photo, setPhoto] = useState('');
   const [categories, setCategories] = useState('');
   const [shipping, setShipping] = useState('');
+  const [sizes, setSizes] = useState('');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const params = useParams()
@@ -47,9 +48,11 @@ export default function UpdateProduct() {
       setQuantity(res.data.singleProduct.quantity)
       setShipping(res.data.singleProduct.shipping ?'yes':'no')
       setCategories(res.data.singleProduct.categories)
+      setSizes(Object.values(res.data.singleProduct.size).join(','))
     })
 
   }
+
   const functionToDeleteProduct = () => {
     return axios.delete(`http://localhost:8080/api/product/delete-product/${params.id}`, {
       headers: {
@@ -64,6 +67,11 @@ export default function UpdateProduct() {
 
   const FunctionToUpdateProduct = (e) => {
     e.preventDefault();
+    let size = {};
+    let temp = sizes.split(',').filter((i)=>{return i!==''})
+    temp.forEach((s, index) => {
+      size[index] = s
+    })
     const productData = new FormData();
     productData.append('name', name)
     productData.append('description', description)
@@ -72,6 +80,7 @@ export default function UpdateProduct() {
     photo && productData.append('photo', photo)
     productData.append('categories', categories._id)
     productData.append('shipping', shipping)
+    productData.append('size', JSON.stringify(size))  
     return axios.put(`http://localhost:8080/api/product/update-product/${params.id}`, productData, {
       headers: {
         Authorization: token
@@ -138,6 +147,9 @@ export default function UpdateProduct() {
           </Select>
           <div style={{ backgroundColor: 'white', width: '55%', fontFamily: 'Lato', height: '2.3rem', borderRadius: '9px', outline: 'none', boxShadow: 'none' }}>
             <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} className="form-control mt-1" id="name" required placeholder="Enter product name..." style={{ border: ' 1px solid #4FC3F7', borderRadius: '7px' }} />
+          </div>
+          <div style={{ backgroundColor: 'white', width: '55%', fontFamily: 'Lato', height: '2.3rem', borderRadius: '9px', outline: 'none', boxShadow: 'none' }}>
+            <input type="text" value={sizes} onChange={(e) => { setSizes(e.target.value) }} className="form-control mt-1" id="name" required placeholder="Enter size..." style={{ border: ' 1px solid #4FC3F7', borderRadius: '7px' }} />
           </div>
           <div style={{ backgroundColor: 'white', width: '55%', fontFamily: 'Lato', borderRadius: '9px', outline: 'none', boxShadow: 'none' }}>
             <textarea type="text" value={description} onChange={(e) => { setDescription(e.target.value) }} className="form-control mt-1" id="name" required placeholder="description..." style={{ border: ' 1px solid #4FC3F7', borderRadius: '7px' }} />

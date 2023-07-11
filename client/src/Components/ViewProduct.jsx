@@ -7,23 +7,21 @@ import { useCart } from './CartContextPage';
 import { toast } from "react-toastify";
 
 export default function ViewProduct() {
-  const [categoriesArray, setCategoriesArray] = useState([]);
   const [productForCartArray, setProductForCartArray] = useState([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [photo, setPhoto] = useState('');
   const [categories, setCategories] = useState('');
   const [shipping, setShipping] = useState('');
   const params = useParams();
   const [allProduct, setAllProducts] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [size, setSize] = useState('');
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
   const [cart,setCart] = useCart()
 
   useEffect(() => {
-    getCategories();
     getSingleProduct();
     getrelatedProduct()
   }, [params.pid])
@@ -38,9 +36,9 @@ export default function ViewProduct() {
       setName(res.data.singleProduct.name)
       setDescription(res.data.singleProduct.description)
       setPrice(res.data.singleProduct.price)
-      setQuantity(res.data.singleProduct.quantity)
       setShipping(res.data.singleProduct.shipping ? 'yes' : 'no')
       setCategories(res.data.singleProduct.categories)
+      setSizes(Object.values(res.data.singleProduct.size))
     })
 
   }
@@ -56,38 +54,19 @@ export default function ViewProduct() {
 
   }
 
-  const getCategories = () => {
-    return axios.get('http://localhost:8080/api/category/categories', {
-      headers: {
-        Authorization: token
-      }
-    }).then((res) => {
-      setCategoriesArray(res.data.categories)
-    })
-  }
-
-  const getCartItems = () => {
-    return axios(`http://localhost:8080/api/cart/get-cart/${user._id}`, {
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      setCart(res.data.allCartItems.length)
-    });
-  };
-
   const addToCart = () =>{
     return axios.post(`http://localhost:8080/api/cart/create-cart`,{
       cart: productForCartArray._id,
       quantity:1,
-      userInfo:user._id
+      userInfo:user._id,
+      size
     }, {
       headers: {
         Authorization: token
       }
     }).then((res) => {
       toast.success('item added to cart');
-      getCartItems()
+      setCart(cart+1);
     }).catch((error)=>{
       toast.error('error in adding to cart')
     })
@@ -108,6 +87,15 @@ export default function ViewProduct() {
             <h4 className="dashboard_heading_product" style={{ fontSize: '17px' }}>Price: Rs{price}</h4>
             <p className="dashboard_heading_product" style={{ fontSize: '12px' }}>Category:{categories.name}</p>
             <p className="dashboard_heading_product" style={{ fontSize: '12px' }}>Description:{description}</p>
+            {sizes.length>0 && (<div className='size_container'>
+              {
+                sizes.map((s)=>{
+                  return(
+                    <div className={`size_box ${size == s? `active_size`:``}`} onClick={()=>{setSize(s)}}>{s}</div>
+                  )
+                })
+              }
+            </div>)}
             <button className="btn btn-dark text-light" onClick={() => { user? addToCart() : toast.error('please login') }} >Add to Cart</button>
           </div>
         </div>
