@@ -57,15 +57,15 @@ export default function CreateProduct() {
                 "Content-Type":'multipart/form-data'
             }
         }).then((res) => {
-            // toast.success(res.data.message);
-            // setName('');
-            // setDescription('');
-            // setPrice('');
-            // setQuantity('');
-            // setPhoto('');
-            // setShipping('');
-            // setCategories('');
-            // navigate('/Product')
+            toast.success(res.data.message);
+            setName('');
+            setDescription('');
+            setPrice('');
+            setQuantity('');
+            setPhoto('');
+            setShipping('');
+            setCategories('');
+            navigate('/Product')
         }).catch((error)=>{
             toast.error(error.response.data.error)
         })
