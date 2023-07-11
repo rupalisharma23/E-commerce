@@ -11,7 +11,7 @@ const requireSignIn = async(req,res,next)=>{
     }
     catch(error){
         console.log(error)
-        res.status(400).send({error})
+        res.status(400).send({error:error})
     }
 }
 

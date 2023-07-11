@@ -30,7 +30,7 @@ const ProductSchema = new Schema(
     },
     shipping: {
       type: Boolean,
-    },
+    }
   },
   { timestamps: true }
 );

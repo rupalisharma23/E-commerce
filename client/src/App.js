@@ -15,6 +15,7 @@ import CreateProduct from './Components/CreateProduct';
 import UpdateProduct from './Components/UpdateProduct';
 import Search from './Components/Search'
 import ViewProduct from './Components/ViewProduct';
+import UpdateInfo from './Components/UpdateInfo';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Search" element={<Search />} />
         <Route path="/view-product/:cid/:pid" element={<ViewProduct />} />
+        <Route path="/update" element={<UpdateInfo />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

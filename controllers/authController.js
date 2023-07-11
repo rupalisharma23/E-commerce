@@ -28,6 +28,10 @@ const resisterController = async (req, res) => {
     if(userAlredyExixt){
         return res.status(400).send({ message: "already registered please login" });
     }
+    const phoneAlreadyExist = await userModel.findOne({phone})
+    if(phoneAlreadyExist){
+      return res.status(400).send({ message: "phone number already in use" });
+    }
     else{
         const hashedPassword = await hashPassword(password);
         const user =  await userModel.create({ name, email,phone, address, role, password:hashedPassword })
@@ -77,9 +81,9 @@ const loginController = async (req, res) => {
       user: {
         name: userAlredyExixt.name,
         email: userAlredyExixt.email,
-        address: userAlredyExixt.address,
         role: userAlredyExixt.role,
         address: userAlredyExixt.address,
+        phone:userAlredyExixt.phone,
         _id: userAlredyExixt._id,
       },
       message: "logined successfully",

@@ -76,7 +76,7 @@ export default function Header() {
                             <li className="nav-item">
                                 <NavLink to='/Register' className="nav-link" href="#">Register</NavLink>
                             </li></> : <li className="nav-item">
-                            <NavLink to='/Login' className="nav-link" href="#" onClick={() => { navigate('/Login'); localStorage.clear(); window.location.reload(); }}>Logout</NavLink>
+                                <NavLink to='/update' className="nav-link" href="#" onClick={() => { navigate('/update');  }}><i class="fas fa-user"></i></NavLink>
                         </li>}
 
                     </ul> :
@@ -99,7 +99,7 @@ export default function Header() {
                                 <NavLink to='/Register' className="nav-link" href="#">Create</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to='/Login' className="nav-link" href="#" onClick={() => { navigate('/Login'); localStorage.clear(); window.location.reload(); }}>Logout</NavLink>
+                                <NavLink to='/update' className="nav-link" href="#" onClick={() => { navigate('/update'); }}><i class="fas fa-user"></i></NavLink>
                             </li>
 
                         </ul>
