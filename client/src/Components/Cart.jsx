@@ -17,6 +17,8 @@ export default function Cart() {
   const [clientToken,setClientToken] = useState('')
   const [instance,setInstance] = useState('')
   const [cart, setCart] = useCart();
+  const [showDropIn, setShowDropIn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
    user && getCartItems();
@@ -95,6 +97,8 @@ export default function Cart() {
     });
   }
 
+  console.log(clientToken)
+
   const increment = (quantity, index,id) =>{
     let temp = [...allcartItems];
     setIntialQunatity(intialQunatities[id])
@@ -123,8 +127,35 @@ export default function Cart() {
     setAllCartItems(temp)
   }
 
-  const handelPayment =()=>{
-    
+  const handleBuyClick = () => {
+    setShowDropIn(true);
+  };
+
+  const handelPayment = async() =>{
+    try{
+      setLoading(true)
+      let total = totalPrice()
+
+      const { nonce } = instance.requestPaymentMethod();
+
+      const { data } = await axios.post('http://localhost:8080/api/product/braintree/payment',{
+        cart: allcartItems, nonce, total, user
+      }, {
+        headers: {
+          Authorization: token
+        }
+      })
+      setLoading(false)
+      setAllCartItems([]);
+      toast.success('success')
+
+    }
+    catch(error){
+      setLoading(false)
+      console.log(error);
+      toast.success('error')
+    }
+
   }
 
   return (
@@ -212,16 +243,25 @@ export default function Cart() {
           );
         })}
         {totalPrice()}
-        <DropIn options={{
-          authorization: clientToken,
-          paypal:{
-            flow:'vault'
-          }
-        }}
-        onInstance={instanse => setInstance(instanse) }
-         />
-        <button className="btn btn-dark text-light" onClick={handelPayment} > Make payment </button>
+        <div id={"braintree-drop-in-div"}>
+          {showDropIn && clientToken && (
+          <div>
+        <DropIn
+          options={{
+            authorization: clientToken,
+          }}
+          onInstance={(instance) => setInstance(instance)}
+        />
+         <button disabled={!instance||!user?.address} onClick={() => {handelPayment()}} >{loading?'processing...':'buy'}</button>
+            </div>
+      )}
+        </div>
+      {!clientToken && <h1>loading</h1> }
+        {!showDropIn && (
+          <button onClick={handleBuyClick}>Buy</button>
+        )}
       </div>
     </Layout>
   );
 }
+

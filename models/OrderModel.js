@@ -16,7 +16,7 @@ const orderSchema = new Schema({
   status:{
     type:String,
     default:'Not processed',
-    enum:['not process','proccessing', 'shipped', 'dilevered','canceled']
+    enum:['Not processed','proccessing', 'shipped', 'dilevered','canceled']
   }
 },{ timestamps: true });
 

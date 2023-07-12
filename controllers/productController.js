@@ -1,5 +1,6 @@
 const product = require("../models/ProductModel");
 const order = require("../models/OrderModel");
+const carti = require("../models/CartModel");
 const fs = require("fs");
 const braintree = require("braintree");
 const dotenv = require("dotenv");
@@ -277,33 +278,29 @@ const braintreePaymentTokenController = async(req,res) =>{
 const braintreePaymentController = async(req,res)=>{
   try {
 
-    const{cart,nonce} = req.body;
-    let total = 0;
-    cart.map((i)=>{
-      total = total + i.price
-    });
+    const { cart, nonce, total } = req.body;
+    let newTransaction =  gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true,
+        },
+      },
 
-    let newTransaction = gateway.transaction.sale({
-      amount:total,
-      paymentMethodNonce:nonce,
-      options:{
-        submitForSettlement:true
+      function (error, result) {
+        if (result) {
+          const orders = new order({
+            product: cart,
+            payment: result,
+            buyer: req.user._id,
+          }).save();
+          res.json({ ok: true });
+        } else {
+          res.status(400).send(error);
+        }
       }
-    },
-    
-    function(error,result){
-      if(result){
-      const order = new order({
-        product:cart,
-        payment:result,
-        buyer:req.user._id
-      }).save()
-      res.json({ok:true})}
-      else{
-        res.status(400).send(error);
-      }
-    }
-    )
+    );
 
   } catch (error) {
     console.log(error);
