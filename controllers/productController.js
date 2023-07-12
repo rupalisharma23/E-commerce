@@ -288,13 +288,14 @@ const braintreePaymentController = async(req,res)=>{
         },
       },
 
-      function (error, result) {
+     async function (error, result) {
         if (result) {
           const orders = new order({
             product: cart,
             payment: result,
             buyer: req.user._id,
           }).save();
+          await carti.deleteMany({ userInfo: req.user._id });
           res.json({ ok: true });
         } else {
           res.status(400).send(error);
