@@ -48,7 +48,7 @@ export default function UpdateProduct() {
       setQuantity(res.data.singleProduct.quantity)
       setShipping(res.data.singleProduct.shipping ?'yes':'no')
       setCategories(res.data.singleProduct.categories)
-      setSizes(Object.values(res.data.singleProduct.size).join(','))
+      setSizes(Object.keys(res.data.singleProduct.size).join(','))
     })
 
   }
@@ -70,7 +70,7 @@ export default function UpdateProduct() {
     let size = {};
     let temp = sizes.split(',').filter((i)=>{return i!==''})
     temp.forEach((s, index) => {
-      size[index] = s
+      size[s] = s
     })
     const productData = new FormData();
     productData.append('name', name)

@@ -9,10 +9,10 @@ const createCartController = async(req,res) =>{
           res.status(400).send({ error: "please login" });
         }
 
-        const checkIfCartItemAlreadyExist = await cartItems.findOne({ cart });
-        if (checkIfCartItemAlreadyExist && checkIfCartItemAlreadyExist.size==size) {
+        const checkIfCartItemAlreadyExist = await cartItems.findOne({cart,size});
+        if (checkIfCartItemAlreadyExist) {
           const updatedItem = await cartItems.findOneAndUpdate(
-            { cart },
+            { cart,size },
             {
               ...req.body,
               quantity:

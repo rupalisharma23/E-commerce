@@ -6,6 +6,7 @@ const categoryRoute = require("./routes/categoryRoute")
 const productRoute = require("./routes/productRoutes")
 const cartRoute = require("./routes/CartRoutes")
 const userRoute = require('./routes/UserDetailsEditRoutes')
+const filterRoute = require('./routes/FilterRoute')
 const cors = require("cors");
 // const formidableMiddleware = require("express-formidable");
 
@@ -44,6 +45,7 @@ app.use("/api/category", categoryRoute);
 app.use("/api/product", productRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/user", userRoute);
+app.use("/api/filter", filterRoute);
 
 const PORT = process.env.PORT || 8080;
 

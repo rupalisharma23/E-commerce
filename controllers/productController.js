@@ -67,9 +67,10 @@ const getProductController = async (req, res) => {
 // get product by filter
 const filterProductController = async (req, res) => {
   try {
-    const { checked, radio } = req.body;
+    const { checked, radio, sizeFilter } = req.body;
     const page = req.params.page;
     const productPerPage = 10;
+     
 
     let filter = {}; // Initialize an empty filter object
 
@@ -81,7 +82,13 @@ const filterProductController = async (req, res) => {
       filter.price = { $gte: radio[0], $lte: radio[1] }; // Filter products based on the price range
     }
 
+    if(sizeFilter && sizeFilter.length>0){
+      const sizeFilters = sizeFilter.map((size) => ({ [`size.${size}`]: size })); // Create an array of filter objects for each size
+      filter.$or = sizeFilters;
+    }
+
     console.log(filter);
+
 
     const allProduct = await product
       .find(filter)

@@ -38,7 +38,7 @@ export default function ViewProduct() {
       setPrice(res.data.singleProduct.price)
       setShipping(res.data.singleProduct.shipping ? 'yes' : 'no')
       setCategories(res.data.singleProduct.categories)
-      setSizes(Object.values(res.data.singleProduct.size))
+      setSizes(Object.keys(res.data.singleProduct.size))
     })
 
   }

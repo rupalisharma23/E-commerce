@@ -156,7 +156,7 @@ export default function Cart() {
                             inputProps={{ 'aria-label': 'Without label' }}
                             style={{ outline: 'none', boxShadow: 'none', marginLeft:'10px', paddingBottom:'0', borderBottom:'1px solid black' }} 
                         >
-                            {cart.cart.size && Object.values(cart.cart.size).map((s)=>{
+                            {cart.cart.size && Object.keys(cart.cart.size).map((s)=>{
                               return(
                                 <MenuItem value={s} key={s}>{s}</MenuItem>
                               )

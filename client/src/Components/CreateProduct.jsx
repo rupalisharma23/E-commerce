@@ -39,7 +39,7 @@ export default function CreateProduct() {
         let size = {};
         let temp = sizes.split(',').filter((i) => { return i !== '' });
         temp.forEach((s,index)=>{
-            size[index] = s
+            size[s] = s
         })
         const productData = new FormData();
         productData.append('name',name)

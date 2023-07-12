@@ -9,10 +9,12 @@ import { price } from './Prices';
 export default function Product() {
   const [allProduct, setAllProducts] = useState([]);
   const [categoriesFilter, setCategoriesFilter] = useState([]);
+  const [sizeFilter, setSizeFilter] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState();
   const [totalProductLength, setTotalProductLength] = useState('');
   const [productPerPage, setProductPerPage] = useState();
+  const [size, setSize] = useState([]);
   const [page, setPage] = useState(1);
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
@@ -23,12 +25,14 @@ export default function Product() {
   }, [categoriesFilter, selectedPrice])
 
   useEffect(()=>{
-    (categoriesFilter.length == 0 && !selectedPrice) ? getProducts() : filterProducts()
-  }, [categoriesFilter,selectedPrice, page])
+    (categoriesFilter.length == 0 && !selectedPrice &&sizeFilter.length==0) ? getProducts() : filterProducts()
+  }, [categoriesFilter,selectedPrice, page, sizeFilter])
 
   useEffect(()=>{
     getCategories();
   },[])
+
+  console.log(sizeFilter)
 
   const getProducts = () => {
     return axios.get(`http://localhost:8080/api/product/get-product/${page}`, {
@@ -43,7 +47,7 @@ export default function Product() {
   }
 
   const filterProducts = () => {
-    return axios.post(`http://localhost:8080/api/product/get-product-filter/${page}`, { checked: categoriesFilter, radio: selectedPrice ? selectedPrice.array: []},{
+    return axios.post(`http://localhost:8080/api/product/get-product-filter/${page}`, { checked: categoriesFilter, radio: selectedPrice ? selectedPrice.array: [], sizeFilter },{
       headers: {
         Authorization: token
       }
@@ -55,17 +59,17 @@ export default function Product() {
   }
 
   const getCategories = () => {
-    return axios.get('http://localhost:8080/api/category/categories', {
+    return axios.get('http://localhost:8080/api/filter/getFilters', {
       headers: {
         Authorization: token
       }
     }).then((res) => {
       setCategoriesArray(res.data.categories)
+      setSize(res.data.size)
     })
   }
 
   const filtrHande = (value,item) =>{
-    console.log(value)
     let temp = [...categoriesFilter]
     if(value){
       temp.push(item._id)
@@ -74,6 +78,17 @@ export default function Product() {
      temp = temp.filter((id)=> {return id !== item._id})
     }
     setCategoriesFilter(temp)
+  }
+  
+  const filtrSize = (value,item) =>{
+    let temp = [...sizeFilter]
+    if(value){
+      temp.push(item)
+    }
+    else{
+     temp = temp.filter((id)=> {return id !== item})
+    }
+    setSizeFilter(temp)
   }
 
   // Function to handle the radio button selection
@@ -106,6 +121,23 @@ export default function Product() {
                 )
               })}
               </div>
+              <div className="card-title" style={{ textDecoration: 'underline' }}>Filter by sizes</div>
+              <div style={{display:'flex', flexDirection:'column'}} >
+              {size?.map((items) => {
+                return (
+                
+                  <label> <Checkbox checked={sizeFilter.includes(items)}  style={{
+                    paddingLeft: '0',
+                    fontFamily: 'Lato',
+                    fontSize: '15px',
+                    color: 'black',    
+                    background: 'none', 
+                    border: 'none',    
+                    outline: 'none',    
+                  }} onChange={(e) => { filtrSize(e.target.checked, items) }}/>{items}</label> 
+                )
+              })}
+              </div>
               <div className="card-title" style={{marginTop:'1rem', textDecoration:'underline'}} >Filter by Price</div>
               <div style={{display:'flex', flexDirection:'column'}} >
                 {price?.map((priceRange) => (
@@ -130,7 +162,7 @@ export default function Product() {
                   </div>
                 ))}
               </div>
-              <div className="btn btn-outline-secondary bg-dark text-light" style={{width:'100%', marginTop:'1rem'}} onClick={()=>{setCategoriesFilter([]);setSelectedPrice(null)}}>Reset</div>
+              <div className="btn btn-outline-secondary bg-dark text-light" style={{width:'100%', marginTop:'1rem'}} onClick={()=>{setCategoriesFilter([]);setSelectedPrice(null); setSizeFilter([])}}>Reset</div>
             </div>
           </div>
           <div style={{width:'70%'}}>
