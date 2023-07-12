@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useCart } from './CartContextPage';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import DropIn from "braintree-web-drop-in-react";
 
 export default function Cart() {
   const token = localStorage.getItem('token');
@@ -13,14 +14,20 @@ export default function Cart() {
   const [allcartItems, setAllCartItems] = useState([]);
   const [intialQunatity, setIntialQunatity] = useState(0);
   const [intialQunatities, setIntialQunatities] = useState({});
+  const [clientToken,setClientToken] = useState('')
+  const [instance,setInstance] = useState('')
   const [cart, setCart] = useCart();
 
   useEffect(() => {
    user && getCartItems();
   }, []);
 
+  useEffect(() => {
+    toGetTokenBrainTree();
+  }, [token]);
+
   const getCartItems = () => {
-    return axios(`http://localhost:8080/api/cart/get-cart/${user._id}`, {
+    return axios.get(`http://localhost:8080/api/cart/get-cart/${user._id}`, {
       headers: {
         authorization: token
       }
@@ -36,7 +43,7 @@ export default function Cart() {
   };
 
   const getCartCount = () => {
-    return axios(`http://localhost:8080/api/cart/get-cart-count/${user._id}`, {
+    return axios.get(`http://localhost:8080/api/cart/get-cart-count/${user._id}`, {
       headers: {
         authorization: token
       }
@@ -78,6 +85,16 @@ export default function Cart() {
     })
   }
 
+  const toGetTokenBrainTree = () =>{
+    return axios.get(`http://localhost:8080/api/product/braintree/token`, {
+      headers: {
+        authorization: token
+      }
+    }).then((res) => {
+      setClientToken(res.data.clientToken)
+    });
+  }
+
   const increment = (quantity, index,id) =>{
     let temp = [...allcartItems];
     setIntialQunatity(intialQunatities[id])
@@ -104,6 +121,10 @@ export default function Cart() {
     let temp = [...allcartItems];
     temp[index] = { ...temp[index], size: size }
     setAllCartItems(temp)
+  }
+
+  const handelPayment =()=>{
+    
   }
 
   return (
@@ -191,6 +212,15 @@ export default function Cart() {
           );
         })}
         {totalPrice()}
+        <DropIn options={{
+          authorization: clientToken,
+          paypal:{
+            flow:'vault'
+          }
+        }}
+        onInstance={instanse => setInstance(instanse) }
+         />
+        <button className="btn btn-dark text-light" onClick={handelPayment} > Make payment </button>
       </div>
     </Layout>
   );
