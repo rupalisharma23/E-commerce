@@ -7,15 +7,14 @@ const productRoute = require("./routes/productRoutes")
 const cartRoute = require("./routes/CartRoutes")
 const userRoute = require('./routes/UserDetailsEditRoutes')
 const filterRoute = require('./routes/FilterRoute')
+const orderRoute = require('./routes/OrderRoutes')
 const cors = require("cors");
-// const formidableMiddleware = require("express-formidable");
 
 dotenv.config()
 mongoConnecction();
 
 const app = express();
 app.use(express.json());
-// app.use(formidableMiddleware());
 // for cors
 const allowedOrigins = [ "http://localhost:3000"];
 
@@ -46,6 +45,7 @@ app.use("/api/product", productRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/user", userRoute);
 app.use("/api/filter", filterRoute);
+app.use("/api/order", orderRoute);
 
 const PORT = process.env.PORT || 8080;
 

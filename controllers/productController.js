@@ -279,6 +279,12 @@ const braintreePaymentController = async(req,res)=>{
   try {
 
     const { cart, nonce, total } = req.body;
+    const updatedProduct = cart.map((item) => {
+      return {
+        ...item,
+        status: "Not processed",
+      };
+    });
     let newTransaction =  gateway.transaction.sale(
       {
         amount: total,
@@ -291,7 +297,7 @@ const braintreePaymentController = async(req,res)=>{
      async function (error, result) {
         if (result) {
           const orders = new order({
-            product: cart,
+            product: updatedProduct,
             payment: result,
             buyer: req.user._id,
           }).save();

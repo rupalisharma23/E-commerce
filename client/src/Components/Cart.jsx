@@ -7,6 +7,7 @@ import { useCart } from './CartContextPage';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import DropIn from "braintree-web-drop-in-react";
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
   const token = localStorage.getItem('token');
@@ -19,6 +20,7 @@ export default function Cart() {
   const [cart, setCart] = useCart();
   const [showDropIn, setShowDropIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
    user && getCartItems();
@@ -147,8 +149,8 @@ export default function Cart() {
       })
       setLoading(false)
       setAllCartItems([]);
-      toast.success('success')
-
+      toast.success('success');
+      navigate('/Order')
     }
     catch(error){
       setLoading(false)
