@@ -35,7 +35,7 @@ export default function UpdateInfo() {
                       <div className="col-md-6">
                           <div className="card shadow-lg">
                               <div className="card-body">
-                                  <h3 className="card-title text-center title">{user ? "Add admin" : "Registration Form"}</h3>
+                                  <h3 className="card-title text-center title">Edit profile</h3>
                                   <form onSubmit={(e) => { handleSubmit(e) }}>
                                       <div className="form-group">
                                           <label htmlFor="name">Name</label>

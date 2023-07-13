@@ -63,7 +63,7 @@ export default function Header() {
                             <NavLink to='/Product' className="nav-link" href="#">Products</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to='/Order' className="nav-link" href="#">Orders</NavLink>
+                            <NavLink to='/OrderUser' className="nav-link" href="#">Orders</NavLink>
                         </li>
                         <li className="nav-item" style={{position:'relative'}}>
                             <NavLink to='/Cart' className="nav-link" href="#"><i class="fas fa-shopping-cart"></i> {cart>0 && <div className='batch'>{cart}</div>} </NavLink>

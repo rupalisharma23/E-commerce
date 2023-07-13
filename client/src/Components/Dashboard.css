@@ -122,12 +122,10 @@
 
 .size_container{
   display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
     width: 100%;
     margin-bottom: 1rem;
-    width: 80%;
-    gap:1rem
+    gap:1.5rem
 }
 
 .size_box{
@@ -144,5 +142,14 @@
 .active_size{
   background:black;
   color: white;
+}
+
+.details_class{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  font-weight:600
 }
 

@@ -16,6 +16,7 @@ import UpdateProduct from './Components/UpdateProduct';
 import Search from './Components/Search'
 import ViewProduct from './Components/ViewProduct';
 import UpdateInfo from './Components/UpdateInfo';
+import OrderUser from './Components/OrderUser'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/Product" element={<Product />} />
         <Route path="/update-product/:id" element={<UpdateProduct />} />
         <Route path="/Order" element={<Order />} />
+        <Route path="/OrderUser" element={<OrderUser />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Search" element={<Search />} />
         <Route path="/view-product/:cid/:pid" element={<ViewProduct />} />
