@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { useCart } from './CartContextPage';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import DropIn from "braintree-web-drop-in-react";
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
   const token = localStorage.getItem('token');
@@ -13,14 +15,23 @@ export default function Cart() {
   const [allcartItems, setAllCartItems] = useState([]);
   const [intialQunatity, setIntialQunatity] = useState(0);
   const [intialQunatities, setIntialQunatities] = useState({});
+  const [clientToken,setClientToken] = useState('')
+  const [instance,setInstance] = useState('')
   const [cart, setCart] = useCart();
+  const [showDropIn, setShowDropIn] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
    user && getCartItems();
   }, []);
 
+  useEffect(() => {
+    toGetTokenBrainTree();
+  }, [token]);
+
   const getCartItems = () => {
-    return axios(`http://localhost:8080/api/cart/get-cart/${user._id}`, {
+    return axios.get(`http://localhost:8080/api/cart/get-cart/${user._id}`, {
       headers: {
         authorization: token
       }
@@ -36,7 +47,7 @@ export default function Cart() {
   };
 
   const getCartCount = () => {
-    return axios(`http://localhost:8080/api/cart/get-cart-count/${user._id}`, {
+    return axios.get(`http://localhost:8080/api/cart/get-cart-count/${user._id}`, {
       headers: {
         authorization: token
       }
@@ -78,6 +89,18 @@ export default function Cart() {
     })
   }
 
+  const toGetTokenBrainTree = () =>{
+    return axios.get(`http://localhost:8080/api/product/braintree/token`, {
+      headers: {
+        authorization: token
+      }
+    }).then((res) => {
+      setClientToken(res.data.clientToken)
+    });
+  }
+
+  console.log(clientToken)
+
   const increment = (quantity, index,id) =>{
     let temp = [...allcartItems];
     setIntialQunatity(intialQunatities[id])
@@ -104,6 +127,37 @@ export default function Cart() {
     let temp = [...allcartItems];
     temp[index] = { ...temp[index], size: size }
     setAllCartItems(temp)
+  }
+
+  const handleBuyClick = () => {
+    setShowDropIn(true);
+  };
+
+  const handelPayment = async() =>{
+    try{
+      setLoading(true)
+      let total = totalPrice()
+
+      const { nonce } = instance.requestPaymentMethod();
+
+      const { data } = await axios.post('http://localhost:8080/api/product/braintree/payment',{
+        cart: allcartItems, nonce, total, user
+      }, {
+        headers: {
+          Authorization: token
+        }
+      })
+      setLoading(false)
+      setAllCartItems([]);
+      toast.success('success');
+      navigate('/Order')
+    }
+    catch(error){
+      setLoading(false)
+      console.log(error);
+      toast.success('error')
+    }
+
   }
 
   return (
@@ -191,7 +245,25 @@ export default function Cart() {
           );
         })}
         {totalPrice()}
+        <div id={"braintree-drop-in-div"}>
+          {showDropIn && clientToken && (
+          <div>
+        <DropIn
+          options={{
+            authorization: clientToken,
+          }}
+          onInstance={(instance) => setInstance(instance)}
+        />
+         <button disabled={!instance||!user?.address} onClick={() => {handelPayment()}} >{loading?'processing...':'buy'}</button>
+            </div>
+      )}
+        </div>
+      {!clientToken && <h1>loading</h1> }
+        {!showDropIn && (
+          <button onClick={handleBuyClick}>Buy</button>
+        )}
       </div>
     </Layout>
   );
 }
+

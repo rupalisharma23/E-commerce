@@ -11,6 +11,8 @@ const {
   filterProductController,
   searchProductController,
   getRelatedProductController,
+  braintreePaymentTokenController,
+  braintreePaymentController,
 } = product;
 const middleware = require("../middleware/authMiddleware");
 const { requireSignIn, AminAccress } = middleware;
@@ -45,5 +47,11 @@ router.post("/get-product-filter/:page", filterProductController);
 
 // to filter product
 router.get("/search/:keyword", searchProductController);
+
+// to get tocken
+router.get("/braintree/token", braintreePaymentTokenController);
+
+// payment
+router.post("/braintree/payment", requireSignIn, braintreePaymentController);
 
 module.exports = router

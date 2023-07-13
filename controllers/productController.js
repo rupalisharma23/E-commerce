@@ -1,5 +1,18 @@
 const product = require("../models/ProductModel");
+const order = require("../models/OrderModel");
+const carti = require("../models/CartModel");
 const fs = require("fs");
+const braintree = require("braintree");
+const dotenv = require("dotenv");
+dotenv.config();
+
+// payment gateway
+var gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
 
 const createProductController = async (req, res) => {
   try {
@@ -242,6 +255,67 @@ const searchProductController = async (req, res) => {
   }
 };
 
+// payment getway token 
+
+const braintreePaymentTokenController = async(req,res) =>{
+  try{
+    gateway.clientToken.generate({}, function(error, response){
+      if(error){
+        res.status(400).send(error)
+      }
+      else{
+        res.send(response)
+      }
+    });
+  }
+  catch(error){
+    console.log(error);
+    res.status(400).send({ error: error });
+  }
+}
+
+// to payment 
+const braintreePaymentController = async(req,res)=>{
+  try {
+
+    const { cart, nonce, total } = req.body;
+    const updatedProduct = cart.map((item) => {
+      return {
+        ...item,
+        status: "Not processed",
+      };
+    });
+    let newTransaction =  gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true,
+        },
+      },
+
+     async function (error, result) {
+        if (result) {
+          const orders = new order({
+            product: updatedProduct,
+            payment: result,
+            buyer: req.user._id,
+          }).save();
+          await carti.deleteMany({ userInfo: req.user._id });
+          res.json({ ok: true });
+        } else {
+          res.status(400).send(error);
+        }
+      }
+    );
+
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ error: error });
+  }
+}
+
+
 module.exports = {
   createProductController,
   getProductController,
@@ -252,4 +326,6 @@ module.exports = {
   filterProductController,
   searchProductController,
   getRelatedProductController,
+  braintreePaymentTokenController,
+  braintreePaymentController,
 };

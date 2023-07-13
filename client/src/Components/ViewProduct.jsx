@@ -78,8 +78,8 @@ export default function ViewProduct() {
       <div className="container" style={{ paddingBottom: '6rem', marginTop: '2rem' }}>
         <div className="row">
           <div className="col-lg-6" style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-            <div className="card shadow" style={{width:'75%'}}>
-              <img style={{height:'300px', objectFit:'contain'}} src={`http://localhost:8080/api/product/get-photo/${params.pid}`} alt="Product" className="card-img-top img img-responsive" />
+            <div className="card shadow">
+              <img style={{height:'300px', width:'300px', objectFit:'contain'}} src={`http://localhost:8080/api/product/get-photo/${params.pid}`} alt="Product" className="card-img-top img img-responsive" />
             </div>
           </div>
           <div className="col-lg-6">
