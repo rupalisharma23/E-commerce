@@ -59,7 +59,7 @@ export default function OrderUser() {
                                               </div>
                                           </td>
                                           <td style={{ fontSize: '13px', fontWeight: '600' }}>{moment(details.createdAt).format('DD/MM/YYYY')}</td>
-                                          <td style={{ fontSize: '13px', fontWeight: '600', color: details.status == 'Not processed' ? 'orange' : details.status =='processed'?'yellow':'green' }}>{details.status}</td>
+                                          <td style={{ fontSize: '13px', fontWeight: '600', color: details.status == 'Not processed' ? 'orange' : details.status == 'processed' ? 'yellow' : details.status =='cancelled'?'red': 'green' }}>{details.status}</td>
                                       </tr>
                                   )
                               })

@@ -16,10 +16,6 @@ display: flex;
 font-family: 'Lato', sans-serif;
 }
 
-.btn:hover{
-    font-size: 16px;
-}
-
 .form-group {
     font-weight: 600 !important;
   margin-bottom: 20px;

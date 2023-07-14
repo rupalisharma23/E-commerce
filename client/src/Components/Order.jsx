@@ -109,6 +109,7 @@ export default function Order() {
                           <MenuItem style={{fontSize:'13px'}} value='Not processed'>Not processed</MenuItem>
                           <MenuItem style={{ fontSize: '13px' }} value='processed'>processed</MenuItem>
                           <MenuItem style={{ fontSize: '13px' }} value='delivered'>delivered</MenuItem>
+                          <MenuItem style={{ fontSize: '13px' }} value='cancelled'>cancelled</MenuItem>
                             
                         </Select>
                           <button className="btn btn-dark text-light" onClick={() => { statusChangeApi(items._id, details._id ,details.status)}} style={{ padding: '0 1rem', width:'75px' }}>save</button>
