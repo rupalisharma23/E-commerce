@@ -37,7 +37,7 @@ export default function CreateProduct() {
     const FunctionToCreateProduct = (e) => {
         e.preventDefault();
         let size = {};
-        let temp = sizes.split(',').filter((i) => { return i !== '' });
+        let temp =  sizes.split(',').filter((i) => { return i !== '' });
         temp.forEach((s,index)=>{
             size[s] = s
         })

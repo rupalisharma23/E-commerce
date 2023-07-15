@@ -201,8 +201,8 @@ export default function Cart() {
                     <div className='details_class'>
                       <span>{cart.cart.name}</span>
                       <span>{cart.cart.categories.name}</span>
-                      <span>total: Rs{parseFloat(cart.cart.price) * cart.quantity}</span>
-                      <span>Size:
+                      <span>Price: Rs{cart.cart.price}</span>
+                      {cart.size && <span>Size:
                         <Select
                           onChange={(e) => { changeCartSize(index, e.target.value) }}
                           value={cart.size}
@@ -219,7 +219,7 @@ export default function Cart() {
                             )
                           })}
                         </Select>
-                      </span>
+                      </span>}
                       <div className="input-group displayActive">
                         <div className="input-group-prepend">
                           <button className={`btn btn-outline-secondary bg-light text-dark ${cart.quantity === 1 ? 'disabled' : ''}`} style={{ padding: '0 1rem', marginRight: '0.3rem' }} type="button" onClick={() => { decrement(cart.quantity, index, cart._id) }} >

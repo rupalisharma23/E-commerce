@@ -3,7 +3,7 @@ const category = require("../models/categoryModel");
 
 const getFilterController  = async(req,res) =>{
     try{
-     const availableProduct = await product.find({}).select('size')
+     const availableProduct = await product.find({ size: { $exists: true } }).select('size')
      let temp = [];
      availableProduct.forEach((p)=>{
         temp.push(Object.values(p.size));

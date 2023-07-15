@@ -53,7 +53,7 @@ export default function OrderUser() {
                                               <div className='details_class'>
                                                   <span>{details.cart.name}</span>
                                                   <span>{details.cart.categories.name}</span>
-                                                  <span>Size: {details.size}</span>
+                                                  {details.size && <span>Size: {details.size}</span>} 
                                                   <span>Quantity: {details.quantity}</span>
                                                   <span>Price: Rs{details.cart.price * details.quantity}</span>
                                               </div>

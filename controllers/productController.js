@@ -61,7 +61,7 @@ const createProductController = async (req, res) => {
 const getProductController = async (req, res) => {
   try {
     const page = req.params.page;
-    const productPerPage = 10;
+    const productPerPage = 12;
     const allProduct = await product
       .find({})
       .skip((page - 1) * productPerPage)
@@ -82,7 +82,7 @@ const filterProductController = async (req, res) => {
   try {
     const { checked, radio, sizeFilter } = req.body;
     const page = req.params.page;
-    const productPerPage = 10;
+    const productPerPage = 12;
      
 
     let filter = {}; // Initialize an empty filter object

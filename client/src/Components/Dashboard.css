@@ -181,10 +181,39 @@ display: flex;
     gap: 1rem;
 }
 
+.ProductActive{
+  display: none;
+}
+
+.responsiveImage{
+  height:300px;
+  object-fit:contain
+}
+
+
 @media (max-width:1000px){
   .shippingSubClass{
     width: 50%;
   }
+  .responsiveImage{
+    height: 170px;
+  }
+     .responsiveCard{
+  width: 50%;
+}
+    .ProductActive{
+    display: flex;
+  }
+  .productDisActive{
+    display: none;
+  }
+
+}
+
+@media (max-width:750px){
+     .responsiveCard{
+  width: 50%;
+}
 }
 
 
@@ -210,5 +239,8 @@ display: flex;
  .shippingSubClass{
   width: 100%
  }
+   .responsiveCard{
+  width: 50%;
+}
 }
 
