@@ -48,7 +48,7 @@ export default function UpdateProduct() {
       setQuantity(res.data.singleProduct.quantity)
       setShipping(res.data.singleProduct.shipping ?'yes':'no')
       setCategories(res.data.singleProduct.categories)
-      setSizes(Object.keys(res.data.singleProduct.size).join(','))
+      res.data.singleProduct.size && setSizes(Object.keys(res.data.singleProduct.size).join(','))
     })
 
   }
