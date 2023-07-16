@@ -5,6 +5,7 @@ import axios from 'axios';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate, useParams } from 'react-router-dom';
+import backendURL from './config';
 
 export default function UpdateProduct() {
   const [categoriesArray, setCategoriesArray] = useState([]);
@@ -27,7 +28,7 @@ export default function UpdateProduct() {
   }, [])
 
   const getCategories = () => {
-    return axios.get('http://localhost:8080/api/category/categories', {
+    return axios.get(`${backendURL}/api/category/categories`, {
       headers: {
         Authorization: token
       }
@@ -37,7 +38,7 @@ export default function UpdateProduct() {
   }
 
   const getSingleProduct = () => {
-    return axios.get(`http://localhost:8080/api/product/get-single-product/${params.id}`, {
+    return axios.get(`${backendURL}/api/product/get-single-product/${params.id}`, {
       headers: {
         Authorization: token
       }
@@ -54,7 +55,7 @@ export default function UpdateProduct() {
   }
 
   const functionToDeleteProduct = () => {
-    return axios.delete(`http://localhost:8080/api/product/delete-product/${params.id}`, {
+    return axios.delete(`${backendURL}/api/product/delete-product/${params.id}`, {
       headers: {
         Authorization: token
       }
@@ -81,7 +82,7 @@ export default function UpdateProduct() {
     productData.append('categories', categories._id)
     productData.append('shipping', shipping)
     productData.append('size', JSON.stringify(size))  
-    return axios.put(`http://localhost:8080/api/product/update-product/${params.id}`, productData, {
+    return axios.put(`${backendURL}/api/product/update-product/${params.id}`, productData, {
       headers: {
         Authorization: token
       }
@@ -208,7 +209,7 @@ export default function UpdateProduct() {
           </div>):
           (<div style={{ width: '54%' }}>
             <div>
-              <img src={`http://localhost:8080/api/product/get-photo/${params.id}`} alt="" height='200px' className='img img-responsive' />
+                <img src={`${backendURL}/api/product/get-photo/${params.id}`} alt="" height='200px' className='img img-responsive' />
             </div>
           </div>)}
           <div className=' text-center' style={{ width: '54%', marginBottom: photo ? '0rem' : '1.5rem', marginBottom: '1.5rem', display:'flex', justifyContent:'center', gap:'1rem' }} >

@@ -5,6 +5,7 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
+import backendURL from './config';
 
 export default function OrderUser() {
     const [allOrders, setAllOrders] = useState([]);
@@ -20,7 +21,7 @@ export default function OrderUser() {
 
     const getAllOrders = () => {
         setLoader(true)
-        return axios.get(`http://localhost:8080/api/order/get-orders/${user._id}`, {
+        return axios.get(`${backendURL}/api/order/get-orders/${user._id}`, {
             headers: {
                 Authorization: token
             }
@@ -57,7 +58,7 @@ export default function OrderUser() {
                                                 key={details._id}
                                                 to={`/view-product/${details.cart.categories._id}/${details.cart._id}`}
                                                 style={{ textDecoration: 'none' }}
-                                            > <img src={`http://localhost:8080/api/product/get-photo/${details.cart._id}?${Date.now()}`} class="card-img-top" style={{ height: '70px', width: '50px', objectFit: 'contain' }} alt="Product 1" /></Link></th>
+                                            > <img src={`${backendURL}/api/product/get-photo/${details.cart._id}?${Date.now()}`} class="card-img-top" style={{ height: '70px', width: '50px', objectFit: 'contain' }} alt="Product 1" /></Link></th>
                                             <td>
                                                 <div className='details_class'>
                                                     <span>{details.cart.name}</span>

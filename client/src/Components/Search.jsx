@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import backendURL from './config';
 
 export default function Search() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -29,7 +30,7 @@ export default function Search() {
     }, [searchQuery])
 
     const getProducts = () => {
-        return axios.get(`http://localhost:8080/api/product/search/${searchQuery}`, {
+        return axios.get(`${backendURL}/api/product/search/${searchQuery}`, {
             headers: {
                 Authorization: token
             }
@@ -69,7 +70,7 @@ export default function Search() {
                                         <Link key={product._id} to={user?.role == 1 ? `/update-product/${product._id}` : `/view-product/${product._id}`} style={{ textDecoration: 'none' }} >
                                             <div class="col">
                                                 <div class="card">
-                                                    <img src={`http://localhost:8080/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top" style={{ height: '300px', objectFit: 'contain' }} alt="Product 1" />
+                                                    <img src={`${backendURL}/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top" style={{ height: '300px', objectFit: 'contain' }} alt="Product 1" />
                                                     <div class="card-body">
                                                         <div class="card-title">{product.name}</div>
                                                         <p class="card-text">Price: {product.price}</p>

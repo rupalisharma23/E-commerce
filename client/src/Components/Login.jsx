@@ -4,6 +4,7 @@ import './Register.css';
 import { toast } from "react-toastify";
 import axios from 'axios';
 import {  useNavigate } from 'react-router-dom';
+import backendURL from './config';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    return axios.post(`http://localhost:8080/api/auth/login`, { email, password }).then((res) => {
+    return axios.post(`${backendURL}/api/auth/login`, { email, password }).then((res) => {
       toast.success('registration successfull');
       localStorage.setItem('user', JSON.stringify(res.data.user) )
       localStorage.setItem('token', res.data.tocken)
