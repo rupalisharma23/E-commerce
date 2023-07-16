@@ -1,5 +1,5 @@
 .dashboard_heading{
-    font-weight: 200 !important;
+    font-weight: 600 ;
     font-size: 22px;
     font-family: 'Lato', sans-serif;
     margin-top: 1rem;
@@ -7,7 +7,7 @@
 }
 
 .dashboard_heading_product{
-    font-weight: 600 !important;
+    font-weight: 600 ;
     font-size: 22px;
     font-family: 'Lato', sans-serif;
     margin-top: 1rem;
@@ -206,6 +206,9 @@ display: flex;
   }
   .productDisActive{
     display: none;
+  }
+  .dashboard_heading{
+    font-size: 15px;
   }
 
 }
