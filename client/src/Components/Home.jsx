@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
+import backendURL from './config';
 
 export default function Home() {
   const [categoriesArray, setCategoriesArray] = useState([]);
@@ -19,14 +20,14 @@ export default function Home() {
   }, [])
 
   const getCategories = () => {
-    return axios.get('http://localhost:8080/api/filter/getFilters').then((res) => {
+    return axios.get(`${backendURL}/api/filter/getFilters`).then((res) => {
       setCategoriesArray(res.data.categories)
     })
   }
 
   const getProducts = () => {
     setLoader(true)
-    return axios.get(`http://localhost:8080/api/product/get-product/1`, {
+    return axios.get(`${backendURL}/api/product/get-product/1`, {
       headers: {
         Authorization: token
       }
@@ -40,7 +41,7 @@ export default function Home() {
     <Layout>
       <div className="image-container">
         <img src='banner4.jpg' alt="image" className="responsive-image sidebarActive" />
-        <img src='joyceshop.jpg' alt="image" className="responsive-image desktopBanner" />
+        <img src='banner4(3).jpg' alt="image" className="responsive-image desktopBanner" />
        </div>
        <div className='container' style={{paddingBottom:'6rem'}} >
         <h3 className='dashboard_heading' style={{marginBottom:'1rem'}}>
@@ -68,7 +69,7 @@ export default function Home() {
                   <Link className='responsiveCard' key={product._id} to={`/view-product/${product.categories._id}/${product._id}`} style={{ textDecoration: 'none' }} >
                     <div class="col">
                       <div class="card">
-                        <img src={`http://localhost:8080/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top responsiveImage" alt="Product 1" />
+                        <img src={`${backendURL}/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top responsiveImage" alt="Product 1" />
                         <div class="card-body">
                           <div class="card-title">{product.name}</div>
                           <p class="card-text">Price: {product.price}</p>

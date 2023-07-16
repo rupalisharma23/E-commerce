@@ -6,6 +6,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { toast } from "react-toastify";
 import { Link } from 'react-router-dom';
+import backendURL from './config';
 
 export default function Order() {
 
@@ -18,7 +19,7 @@ export default function Order() {
   },[])
 
   const getAllOrders = () =>{
-    return axios.get(`http://localhost:8080/api/order/get-all-orders`,{
+    return axios.get(`${backendURL}/api/order/get-all-orders`,{
       headers:{
         Authorization: token
       }
@@ -30,7 +31,7 @@ export default function Order() {
   }
 
   const statusChangeApi = (id, productId,status) =>{
-    return axios.post(`http://localhost:8080/api/order/change-status/${id}`,{
+    return axios.post(`${backendURL}/api/order/change-status/${id}`,{
       productId,status
     },{
       headers:{
@@ -75,7 +76,7 @@ export default function Order() {
                           key={details._id}
                           to={`/view-product/${details.cart.categories._id}/${details.cart._id}`}
                           style={{ textDecoration: 'none' }}
-                        > <img src={`http://localhost:8080/api/product/get-photo/${details.cart._id}?${Date.now()}`} class="card-img-top" style={{ height: '70px', width: '50px', objectFit: 'contain' }} alt="Product 1" /></Link></th>
+                        > <img src={`${backendURL}/api/product/get-photo/${details.cart._id}?${Date.now()}`} class="card-img-top" style={{ height: '70px', width: '50px', objectFit: 'contain' }} alt="Product 1" /></Link></th>
                       <td>
                         <div className='details_class'>
                         <span>{details.cart.name}</span>

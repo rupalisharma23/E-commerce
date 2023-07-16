@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useCart } from './CartContextPage';
 import { toast } from "react-toastify";
+import backendURL from './config';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function ViewProduct() {
   const [productForCartArray, setProductForCartArray] = useState([]);
@@ -19,19 +21,23 @@ export default function ViewProduct() {
   const [size, setSize] = useState('');
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
+  const [loading, setLoading] = useState(false);
   const [cart,setCart] = useCart()
 
   useEffect(() => {
     getSingleProduct();
-    getrelatedProduct()
+    getrelatedProduct();
+    setSize('')
   }, [params.pid])
 
   const getSingleProduct = () => {
-    return axios.get(`http://localhost:8080/api/product/get-single-product/${params.pid}`, {
+    setLoading(true)
+    return axios.get(`${backendURL}/api/product/get-single-product/${params.pid}`, {
       headers: {
         Authorization: token
       }
     }).then((res) => {
+      setLoading(false)
       setProductForCartArray(res.data.singleProduct)
       setName(res.data.singleProduct.name)
       setDescription(res.data.singleProduct.description)
@@ -44,7 +50,7 @@ export default function ViewProduct() {
   }
 
   const getrelatedProduct = () => {
-    return axios.get(`http://localhost:8080/api/product/get-related-product/${params.cid}/${params.pid}`, {
+    return axios.get(`${backendURL}/api/product/get-related-product/${params.cid}/${params.pid}`, {
       headers: {
         Authorization: token
       }
@@ -55,7 +61,7 @@ export default function ViewProduct() {
   }
 
   const addToCart = () =>{
-    return axios.post(`http://localhost:8080/api/cart/create-cart`,{
+    return axios.post(`${backendURL}/api/cart/create-cart`,{
       cart: productForCartArray._id,
       quantity:1,
       userInfo:user._id,
@@ -75,11 +81,11 @@ export default function ViewProduct() {
   return (
     <Layout>
       <h2 className="dashboard_heading">product details</h2>
-      <div className="container" style={{ paddingBottom: '6rem', marginTop: '2rem' }}>
+      {loading ? <div style={{ height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', paddingBottom:'6rem' }}><CircularProgress style={{ color: 'black' }} /></div> : <div className="container" style={{ paddingBottom: '6rem', marginTop: '2rem' }}>
         <div className="row">
           <div className="col-lg-6" style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
             <div className="card shadow">
-              <img style={{height:'300px', width:'300px', objectFit:'contain'}} src={`http://localhost:8080/api/product/get-photo/${params.pid}`} alt="Product" className="card-img-top img img-responsive" />
+              <img style={{ height: '300px', width: '300px', objectFit: 'contain' }} src={`${backendURL}/api/product/get-photo/${params.pid}`} alt="Product" className="card-img-top img img-responsive" />
             </div>
           </div>
           <div className="col-lg-6">
@@ -108,7 +114,7 @@ export default function ViewProduct() {
                 <Link key={product._id} to={`/view-product/${product.categories._id}/${product._id}`} style={{ textDecoration: 'none' }} >
                   <div class="col">
                     <div class="card" style={{width:'80%'}}>
-                      <img src={`http://localhost:8080/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top" style={{ height: '250px', objectFit: 'contain' }} alt="Product 1" />
+                      <img src={`${backendURL}/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top" style={{ height: '250px', objectFit: 'contain' }} alt="Product 1" />
                       <div class="card-body">
                         <div class="card-title">{product.name}</div>
                         <p class="card-text">Price: {product.price}</p>
@@ -121,7 +127,7 @@ export default function ViewProduct() {
             }))}
           </div>
         </div>
-      </div>
+      </div>}
     </Layout>
   );
 }

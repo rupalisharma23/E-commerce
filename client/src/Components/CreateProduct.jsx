@@ -5,6 +5,7 @@ import axios from 'axios';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
+import backendURL from './config';
 
 export default function CreateProduct() {
     const [categoriesArray, setCategoriesArray] = useState([]);
@@ -25,7 +26,7 @@ export default function CreateProduct() {
     }, [])
 
     const getCategories = () => {
-        return axios.get('http://localhost:8080/api/category/categories', {
+        return axios.get(`${backendURL}/api/category/categories`, {
             headers: {
                 Authorization: token
             }
@@ -51,7 +52,7 @@ export default function CreateProduct() {
         productData.append('shipping', shipping)
         productData.append('size', JSON.stringify(size))       
         console.log(productData)
-        return axios.post('http://localhost:8080/api/product/create-product', productData, {
+        return axios.post(`${backendURL}/api/product/create-product`, productData, {
             headers: {
                 Authorization: token,
                 "Content-Type":'multipart/form-data'

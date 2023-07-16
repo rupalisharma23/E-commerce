@@ -4,6 +4,7 @@ import './Register.css';
 import { toast } from "react-toastify";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import backendURL from './config';
 
 export default function UpdateInfo() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -16,7 +17,7 @@ export default function UpdateInfo() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        return axios.put(`http://localhost:8080/api/user/edit-user/${user._id}`, { name, email, address, phone }, {
+        return axios.put(`${backendURL}/api/user/edit-user/${user._id}`, { name, email, address, phone }, {
             headers: {
                 Authorization: token
             }}).then((res) => {

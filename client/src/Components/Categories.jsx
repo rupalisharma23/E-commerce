@@ -4,6 +4,7 @@ import './Register.css';
 import { toast } from "react-toastify";
 import axios from 'axios';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import backendURL from './config';
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
@@ -32,7 +33,7 @@ export default function Categories() {
   },[])
 
   const getCategories = () =>{
-    return axios.get('http://localhost:8080/api/category/categories',{
+    return axios.get(`${backendURL}/api/category/categories`,{
       headers:{
         Authorization: token
       }
@@ -42,7 +43,7 @@ export default function Categories() {
   }
 
   const updateCategories = () =>{
-    const update = `http://localhost:8080/api/category/categories/${categoryId}`;
+    const update = `${backendURL}/api/category/categories/${categoryId}`;
     return axios.put(update,{name:categoryName},{
       headers:{
         Authorization: token
@@ -60,7 +61,7 @@ export default function Categories() {
   }
 
   const createCategories = () =>{
-    const add = `http://localhost:8080/api/category/create-category`
+    const add = `${backendURL}/api/category/create-category`
     return axios.post(add ,{name:categoryName},{
       headers:{
         Authorization: token
@@ -78,7 +79,7 @@ export default function Categories() {
   }
 
   const deleteCategory = (categoryId) =>{
-    return axios.delete(`http://localhost:8080/api/category/categories/${categoryId}`,{
+    return axios.delete(`${backendURL}/api/category/categories/${categoryId}`,{
       headers:{
         Authorization: token
       }

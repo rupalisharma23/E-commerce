@@ -10,6 +10,7 @@ import DropIn from "braintree-web-drop-in-react";
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import backendURL from './config';
 
 export default function Cart() {
   const token = localStorage.getItem('token');
@@ -36,7 +37,7 @@ export default function Cart() {
 
   const getCartItems = () => {
     setLoader(true)
-    return axios.get(`http://localhost:8080/api/cart/get-cart/${user._id}`, {
+    return axios.get(`${backendURL}/api/cart/get-cart/${user._id}`, {
       headers: {
         authorization: token
       }
@@ -53,7 +54,7 @@ export default function Cart() {
   };
 
   const getCartCount = () => {
-    return axios.get(`http://localhost:8080/api/cart/get-cart-count/${user._id}`, {
+    return axios.get(`${backendURL}/api/cart/get-cart-count/${user._id}`, {
       headers: {
         authorization: token
       }
@@ -63,7 +64,7 @@ export default function Cart() {
   };
 
   const addToCart = (id, quantity, cartId, size) => {
-    return axios.put(`http://localhost:8080/api/cart/update-cart/${cartId}`, {
+    return axios.put(`${backendURL}/api/cart/update-cart/${cartId}`, {
       cart: id,
       quantity: quantity,
       userInfo: user._id,
@@ -82,7 +83,7 @@ export default function Cart() {
   }
 
   const deleteCart = (id) => {
-    return axios.delete(`http://localhost:8080/api/cart/delete-cart/${id}`, {
+    return axios.delete(`${backendURL}/api/cart/delete-cart/${id}`, {
       headers: {
         Authorization: token
       }
@@ -96,7 +97,7 @@ export default function Cart() {
   }
 
   const toGetTokenBrainTree = () => {
-    return axios.get(`http://localhost:8080/api/product/braintree/token`, {
+    return axios.get(`${backendURL}/api/product/braintree/token`, {
       headers: {
         authorization: token
       }
@@ -145,7 +146,7 @@ export default function Cart() {
 
       const { nonce } = instance.requestPaymentMethod();
 
-      const { data } = await axios.post('http://localhost:8080/api/product/braintree/payment', {
+      const { data } = await axios.post(`${backendURL}/api/product/braintree/payment`, {
         cart: allcartItems, nonce, total, user
       }, {
         headers: {
@@ -195,7 +196,7 @@ export default function Cart() {
                     >
                       <img
                         style={{ height: '70px', width: '50px', objectFit: 'contain' }}
-                        src={`http://localhost:8080/api/product/get-photo/${cart.cart._id}?${Date.now()}`}
+                        src={`${backendURL}/api/product/get-photo/${cart.cart._id}?${Date.now()}`}
                         className="card-img"
                         alt="Product Image"
                       />

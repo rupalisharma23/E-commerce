@@ -12,6 +12,7 @@ import { price } from './Prices';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import backendURL from './config';
 
 export default function Product() {
   const [allProduct, setAllProducts] = useState([]);
@@ -42,11 +43,9 @@ export default function Product() {
     getCategories();
   }, [])
 
-  console.log(sizeFilter)
-
   const getProducts = () => {
     setLoader(true)
-    return axios.get(`http://localhost:8080/api/product/get-product/${page}`, {
+    return axios.get(`${backendURL}/api/product/get-product/${page}`, {
       headers: {
         Authorization: token
       }
@@ -60,7 +59,7 @@ export default function Product() {
 
   const filterProducts = () => {
     setLoader(true)
-    return axios.post(`http://localhost:8080/api/product/get-product-filter/${page}`, { checked: categoriesFilter, radio: selectedPrice ? selectedPrice.array : [], sizeFilter }, {
+    return axios.post(`${backendURL}/api/product/get-product-filter/${page}`, { checked: categoriesFilter, radio: selectedPrice ? selectedPrice.array : [], sizeFilter }, {
       headers: {
         Authorization: token
       }
@@ -73,7 +72,7 @@ export default function Product() {
   }
 
   const getCategories = () => {
-    return axios.get('http://localhost:8080/api/filter/getFilters', {
+    return axios.get(`${backendURL}/api/filter/getFilters`, {
       headers: {
         Authorization: token
       }
@@ -224,7 +223,7 @@ export default function Product() {
                     <Link className='responsiveCard' key={product._id} to={user?.role == 1 ? `/update-product/${product._id}` : `/view-product/${product.categories._id}/${product._id}`} style={{ textDecoration: 'none' }} >
                       <div class="col">
                         <div class="card">
-                          <img src={`http://localhost:8080/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top responsiveImage"  alt="Product 1" />
+                          <img src={`${backendURL}/api/product/get-photo/${product._id}?${Date.now()}`} class="card-img-top responsiveImage"  alt="Product 1" />
                           <div class="card-body">
                             <div class="card-title">{product.name}</div>
                             <p class="card-text">Price: {product.price}</p>

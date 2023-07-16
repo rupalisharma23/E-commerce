@@ -3,7 +3,7 @@ import Layout from './Layout';
 import './Register.css';
 import { toast } from "react-toastify";
 import axios from 'axios';
-// import { apiKey } from '../base';
+import backendURL from './config';
 import { useNavigate} from 'react-router-dom';
 
 export default function Register() {
@@ -17,7 +17,7 @@ export default function Register() {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
-    return axios.post(`http://localhost:8080/api/auth/register`,{name,email,address,phone,password,role:user?1:0}).then((res)=>{
+    return axios.post(`${backendURL}/api/auth/register`,{name,email,address,phone,password,role:user?1:0}).then((res)=>{
       user ? toast.success('Admin added'): toast.success('registration successfull');
       !user && navigate('/Login')
     }).catch((error)=>{
