@@ -50,8 +50,7 @@ export default function CreateProduct() {
         productData.append('photo', photo)
         productData.append('categories', categories._id)
         productData.append('shipping', shipping)
-        productData.append('size', JSON.stringify(size))       
-        console.log(productData)
+        productData.append('size', JSON.stringify(size))
         return axios.post(`${backendURL}/api/product/create-product`, productData, {
             headers: {
                 Authorization: token,

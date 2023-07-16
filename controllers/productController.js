@@ -100,9 +100,6 @@ const filterProductController = async (req, res) => {
       filter.$or = sizeFilters;
     }
 
-    console.log(filter);
-
-
     const allProduct = await product
       .find(filter)
       .skip((page - 1) * productPerPage)
