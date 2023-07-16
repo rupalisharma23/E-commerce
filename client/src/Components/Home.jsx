@@ -40,7 +40,7 @@ export default function Home() {
     <Layout>
       <div className="image-container">
         <img src='banner4.jpg' alt="image" className="responsive-image sidebarActive" />
-        <img src='banner5.png' alt="image" className="responsive-image desktopBanner" />
+        <img src='joyceshop.jpg' alt="image" className="responsive-image desktopBanner" />
        </div>
        <div className='container' style={{paddingBottom:'6rem'}} >
         <h3 className='dashboard_heading' style={{marginBottom:'1rem'}}>
