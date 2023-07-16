@@ -4,6 +4,9 @@
     text-transform: uppercase;
     font-weight: bold;
     background:  linear-gradient(to right, #B3E5FC 0%, #E3F2FD 20%, #F8BBD0 90%);
+    position: sticky;
+    top: 0;
+    z-index: 99;
 }
 
 .nav-item{

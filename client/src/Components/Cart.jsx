@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import DropIn from "braintree-web-drop-in-react";
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Cart() {
   const token = localStorage.getItem('token');
@@ -22,6 +23,7 @@ export default function Cart() {
   const [showDropIn, setShowDropIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [checkoutDailog, setCheckoutDailog] = useState(false);
+  const [loader, setLoader] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,11 +35,13 @@ export default function Cart() {
   }, [token]);
 
   const getCartItems = () => {
+    setLoader(true)
     return axios.get(`http://localhost:8080/api/cart/get-cart/${user._id}`, {
       headers: {
         authorization: token
       }
     }).then((res) => {
+      setLoader(false)
       setAllCartItems(res.data.allCartItems);
       const initialQuantities = {};
       res.data.allCartItems.forEach((item) => {
@@ -163,9 +167,9 @@ export default function Cart() {
 
   return (
     <Layout>
-      <h2 className="dashboard_heading">{allcartItems.length > 0 && "Cart Items"}</h2>
       <div className="container" style={{ paddingBottom: '6rem' }}>
-        {allcartItems.length == 0 ? <div className="emptyCart">
+      <div className="dashboard_heading" style={{justifyContent:'start'}} >{allcartItems.length > 0 && "Cart Items"}</div>
+        {loader ? <div style={{ height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}><CircularProgress style={{ color: 'black' }} /></div>: allcartItems.length == 0 ? <div className="emptyCart">
           <h2 >Your cart is empty</h2>
           <button className='btn btn-dark text-light shippingSubClass' style={{ display: 'flex', justifyContent: 'center', textTransform: 'uppercase', marginBottom: '1rem', width:'280px' }} onClick={()=>{navigate('/')}} >Continue shopping</button>
         </div>:

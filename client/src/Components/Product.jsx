@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { price } from './Prices';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Product() {
   const [allProduct, setAllProducts] = useState([]);
@@ -21,6 +22,7 @@ export default function Product() {
   const [totalProductLength, setTotalProductLength] = useState('');
   const [productPerPage, setProductPerPage] = useState();
   const [filterDailog, setFilterDailog] = useState(false)
+  const [loader, setLoader] = useState(false)
   const [size, setSize] = useState([]);
   const [page, setPage] = useState(1);
   const [filterTitle, setFilterTitle] = useState('filter by category')
@@ -43,11 +45,13 @@ export default function Product() {
   console.log(sizeFilter)
 
   const getProducts = () => {
+    setLoader(true)
     return axios.get(`http://localhost:8080/api/product/get-product/${page}`, {
       headers: {
         Authorization: token
       }
     }).then((res) => {
+      setLoader(false)
       setAllProducts(res.data.allProduct)
       setTotalProductLength(res.data.totalProduct)
       setProductPerPage(res.data.productPerPage)
@@ -55,11 +59,13 @@ export default function Product() {
   }
 
   const filterProducts = () => {
+    setLoader(true)
     return axios.post(`http://localhost:8080/api/product/get-product-filter/${page}`, { checked: categoriesFilter, radio: selectedPrice ? selectedPrice.array : [], sizeFilter }, {
       headers: {
         Authorization: token
       }
     }).then((res) => {
+      setLoader(false)
       setAllProducts(res.data.allProduct)
       setTotalProductLength(res.data.totalProduct)
       setProductPerPage(res.data.productPerPage)
@@ -210,7 +216,7 @@ export default function Product() {
               <div className="btn btn-outline-secondary bg-dark text-light" style={{ marginTop: '1rem' }} onClick={() => { setCategoriesFilter([]); setSelectedPrice(null); setSizeFilter([]) }}>Reset</div>
             </div>
           </div>
-          <div style={{width:'100%'}}>
+          {loader ? <div style={{ height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width:'100%' }}><CircularProgress style={{ color: 'black' }} /></div> : <div style={{width:'100%'}}>
             <div class="container">
               <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
                 {allProduct.map((product) => {
@@ -236,7 +242,7 @@ export default function Product() {
               <div className='card-text' >{page}/{Math.ceil(parseInt(totalProductLength) / productPerPage)}</div>
               <button className={`btn btn-outline-secondary bg-dark text-light ${page === Math.ceil(parseInt(totalProductLength) / productPerPage) ? 'disabled' : ''}`} disabled={page === Math.ceil(parseInt(totalProductLength) / productPerPage)} onClick={() => { setPage(page + 1) }}  >Next</button>
             </div>}
-          </div>
+          </div>}
         </div>
       </div>
       <Dialog open={filterDailog} PaperProps={{
