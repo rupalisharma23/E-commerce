@@ -281,7 +281,7 @@ export default function Product() {
               {filterTitle =='filter by category' &&  <div style={{ display: 'flex', flexDirection: 'column', marginLeft:'20px', height:'25rem', overflowY:'scroll' }}>
                 {categoriesArray?.map((items) => {
                   return (
-                    <label style={{display:'flex', fontWeight:'600'}}> <Checkbox checked={categoriesFilter.includes(items._id)} style={{
+                    <label style={{ display: 'flex', fontWeight: '600', alignItems: 'center' }}> <Checkbox checked={categoriesFilter.includes(items._id)} style={{
                       paddingLeft: '0',
                       fontFamily: 'Lato',
                       fontSize: '15px',
@@ -296,7 +296,7 @@ export default function Product() {
               {filterTitle == 'filter by size' && <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px', height: '25rem', overflowY: 'scroll' }}>
                 {size?.map((items) => {
                   return (
-                    <label style={{ display: 'flex', fontWeight: '600' }}> <Checkbox checked={sizeFilter.includes(items)} style={{
+                    <label style={{ display: 'flex', fontWeight: '600', alignItems: 'center' }}> <Checkbox checked={sizeFilter.includes(items)} style={{
                       paddingLeft: '0',
                       fontFamily: 'Lato',
                       fontSize: '15px',
