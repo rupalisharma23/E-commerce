@@ -18,7 +18,10 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "./client/build")));
 // for cors
-const allowedOrigins = ["https://e-commerce-frontend-4i1t.onrender.com"];
+const allowedOrigins = [
+  "https://e-commerce-frontend-4i1t.onrender.com",
+  "http://localhost:3000",
+];
 
 app.use(
   cors({
