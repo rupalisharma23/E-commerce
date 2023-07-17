@@ -1,5 +1,5 @@
 let backendURL;
 
-backendURL = "http://localhost:8080";
+backendURL = "https://e-commerce-ieti.onrender.com";
 
 export default backendURL;
