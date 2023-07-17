@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "./client/build")));
 // for cors
-const allowedOrigins = ["https://e-commerce-ieti.onrender.com"];
+const allowedOrigins = ["https://e-commerce-frontend-4i1t.onrender.com"];
 
 app.use(
   cors({
@@ -32,7 +32,7 @@ app.use(
   })
 );
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://e-commerce-ieti.onrender.com");
+  res.setHeader("Access-Control-Allow-Origin", "https://e-commerce-frontend-4i1t.onrender.com");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Credentials", "true");
